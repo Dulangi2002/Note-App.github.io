@@ -9,6 +9,7 @@ const manifestForPlugin = {
   name: "Note",
   short_name: "Note", 
   start_url: "/Note-App/", 
+  scope: './',
   display: "standalone", 
   background_color: "#fff", 
   theme_color: "#fff", 
@@ -17,20 +18,21 @@ const manifestForPlugin = {
   
   icons: [
     {
-      src: "favicon-16x16.png", // Path to a 16x16 pixel icon
-      sizes: "16x16",
-      type: "image/png",
+      "src": "favicon-16x16.png", // Path to a 16x16 pixel icon
+      "sizes": "16x16",
+      "type": "image/png",
     },
     {
-      src: "favicon-32x32.png", // Path to a 32x32 pixel icon
-      sizes: "32x32",
-      type: "image/png",
+      "src": "favicon-32x32.png", // Path to a 32x32 pixel icon
+      "sizes": "32x32",
+      "type": "image/png",
     },
 
     {
       "src" : "android-chrome-192x192.png",
       "sizes" : "192x192",
-      "type" : "image/png"
+      "type" : "image/png",
+      "purpose": "maskable"
   },
 
   {

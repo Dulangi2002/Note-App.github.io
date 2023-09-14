@@ -15,7 +15,7 @@ function SignIn(){
             // Signed in 
             const user = userCredential.user;
             console.log(user);
-            navigate("/home")
+           // navigate("/home")
             // ...
         })
         .catch((error) => {

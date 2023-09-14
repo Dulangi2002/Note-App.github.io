@@ -8,6 +8,10 @@ import Signup from './components/signup.jsx';
 import Signin from './components/Signin.jsx';
 import AddNote from './components/home.jsx';
 import AddCollaborator from './components/inviteCollaborators.jsx';
+import FetchNotes from './components/fetchNotes'
+
+
+
 
 function App() {
   const [count, setCount] = useState(0)
@@ -53,12 +57,18 @@ function App() {
       <a href="/addcollaborator">Add Collaborator</a>
       </button>
 
+      
+      <button>
+      <a href="/viewnotes">View notes</a>
+      </button>
+
     <Router basename='/'>
       <Routes>  
         <Route path="/signin" element={<Signin/>} />
         <Route path="/signup" element={<Signup/>} />
         <Route path="/addnote" element={<AddNote/>} />
         <Route path="/addcollaborator" element={<AddCollaborator/>} />
+        <Route path="/viewnotes" element={<FetchNotes/>} />
 
        
       </Routes>

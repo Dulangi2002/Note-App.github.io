@@ -1,27 +1,40 @@
 import { getAuth } from "firebase/auth";
 import React from "react";
 import { useState } from "react";
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { getFirestore, collection, addDoc  } from "firebase/firestore";
 
 
 function AddNote(){
 
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-
+    const auth = getAuth();
     const handleAddNote  = async (e) => {
         e.preventDefault();
         try {
             
             const note = { title, content };
             const db = getFirestore();
-            const docRef = await addDoc(collection(db, "notes"), note);
-            
-            console.log(note);
-
+            const user = auth.currentUser; 
+            const userEmail = user.email;
+            console.log(user);/// Assuming you have Firebase Authentication set up
+            if (user) {
+              const userUid = user.uid;
+              const notesCollection = collection( db , "users" , userEmail , "notes" );
+              await addDoc(notesCollection, note);
+              console.log("Document successfully written!");
+            } else {
+                console.log("No user is signed in");
+                // No user is signed in.
+            }
+           console.log(note);
         } catch (error) {
             console.log(error);
         }
+
+
+
+       
     }
 
     return (

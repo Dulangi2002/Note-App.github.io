@@ -41,38 +41,7 @@ function App() {
       </p>
 
     
-      <button>
-        <a href="/Note-App/signup">Signup</a>
-      </button>
 
-      <button>
-      <a href="/Note-App/signin">Signin</a>
-      </button>
-       
-      <button>
-      <a href="/Note-App/addnote">Add Note</a>
-      </button>
-
-      <button>
-      <a href="/Note-App/addcollaborator">Add Collaborator</a>
-      </button>
-
-      
-      <button>
-      <a href="/Note-App/viewnotes">View notes</a>
-      </button>
-
-    <Router>
-      <Routes>  
-        <Route path="/Note-App/signin" element={<Signin/>} />
-        <Route path="/Note-App/signup" element={<Signup/>} />
-        <Route path="/Note-App/addnote" element={<AddNote/>} />
-        <Route path="/Note-App/addcollaborator" element={<AddCollaborator/>} />
-        <Route path="/Note-App/viewnotes" element={<FetchNotes/>} />
-
-       
-      </Routes>
-    </Router>
     
     </>
   )

@@ -8,7 +8,7 @@ import { VitePWA } from "vite-plugin-pwa"
 const manifestForPlugin = {
   name: "Note",
   short_name: "Note", 
-  start_url: "/", 
+  start_url: "/Note-App/", 
   display: "standalone", 
   background_color: "#fff", 
   theme_color: "#fff", 

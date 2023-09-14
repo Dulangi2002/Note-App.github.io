@@ -42,26 +42,27 @@ function App() {
 
     
       <button>
-        <a href="/signup">Signup</a>
+        <a href="/Note-App/signup">Signup</a>
       </button>
 
       <button>
-      <a href="/signin">Signin</a>
+      <a href="/Note-App/signin">Signin</a>
       </button>
        
       <button>
-      <a href="/addnote">Add Note</a>
+      <a href="/Note-App/addnote">Add Note</a>
       </button>
 
       <button>
-      <a href="/addcollaborator">Add Collaborator</a>
+      <a href="/Note-App/addcollaborator">Add Collaborator</a>
       </button>
 
       
       <button>
-      <a href="/viewnotes">View notes</a>
+      <a href="/Note-App/viewnotes">View notes</a>
       </button>
 
+    <Router>
       <Routes>  
         <Route path="/Note-App/signin" element={<Signin/>} />
         <Route path="/Note-App/signup" element={<Signup/>} />
@@ -71,6 +72,7 @@ function App() {
 
        
       </Routes>
+    </Router>
     
     </>
   )

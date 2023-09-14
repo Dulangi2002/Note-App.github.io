@@ -62,17 +62,15 @@ function App() {
       <a href="/viewnotes">View notes</a>
       </button>
 
-    <Router basename='/Note-App/'>
       <Routes>  
-        <Route path="/signin" element={<Signin/>} />
-        <Route path="/signup" element={<Signup/>} />
-        <Route path="/addnote" element={<AddNote/>} />
-        <Route path="/addcollaborator" element={<AddCollaborator/>} />
-        <Route path="/viewnotes" element={<FetchNotes/>} />
+        <Route path="/Note-App/signin" element={<Signin/>} />
+        <Route path="/Note-App/signup" element={<Signup/>} />
+        <Route path="/Note-App/addnote" element={<AddNote/>} />
+        <Route path="/Note-App/addcollaborator" element={<AddCollaborator/>} />
+        <Route path="/Note-App/viewnotes" element={<FetchNotes/>} />
 
        
       </Routes>
-    </Router>
     
     </>
   )

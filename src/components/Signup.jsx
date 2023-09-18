@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import ReactDOM from "react-dom/client";
 import { auth } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc } from 'firebase/firestore';
 
 
 
@@ -27,6 +28,9 @@ function Signup() {
 
   }
   return (
+   
+   
+ 
     <div>
       <h1>Signup</h1>
         <form action="">
@@ -40,6 +44,10 @@ function Signup() {
             <button onClick={handleSignup}>Signup</button>
         </form>
     </div>
+     
+  
+  
+   
   );
 }
 

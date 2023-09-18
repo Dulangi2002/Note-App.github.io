@@ -1,43 +1,46 @@
-import React, {useState} from 'react';
-import ReactDOM from "react-dom/client";
+import React, { useState } from 'react';
 import { auth } from "../firebase";
-import { createUserWithEmailAndPassword, signInWithCustomToken, signInWithEmailAndPassword } from "firebase/auth";
-import { NavLink , useNavigate } from 'react-router-dom';
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from 'react-router-dom';
 
-function SignIn(){
+
+function SignIn() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     const handleSignIn = async (e) => {
         e.preventDefault();
         await signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            // Signed in 
-            const user = userCredential.user;
-            console.log(user);
-           // navigate("/home")
-            // ...
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(error);
-            // ..
-        });
+            .then((userCredential) => {
+                const user = userCredential.user;
+                console.log(user);
+                navigate("/Note-App/FetchNotes");
+
+            })
+            .catch((error) => {
+                console.log(error);
+            
+            });
 
     }
-    return(
+    return (
         <div>
-            <h1>Signin</h1>
-            <form action="">
-                <label htmlFor="email">Email</label>
-                <input type="text" name="email" id="" onChange={(e) =>setEmail(e.target.value)}/>
+            <div className="form-control" >
 
-                <label htmlFor="password">Password</label>
-                <input type="text" name="password" id="" onChange={(e) => setPassword(e.target.value)} />
+                <form action="">
+                    <label htmlFor="email" className="text-3xl font-bold underline">Email</label>
+                    <input className="input input-bordered" type="text" name="email" id="" onChange={(e) => setEmail(e.target.value)} />
+                    <br />
 
-                <button onClick={handleSignIn}>Signin</button>
-            </form>
+                    <label htmlFor="password">Password</label>
+                    <input className="input input-bordered" type="text" name="password" id="" onChange={(e) => setPassword(e.target.value)} />
+
+
+                    <br />
+                    <button onClick={handleSignIn}>Signin</button>
+                </form>
+            </div>
         </div>
     );
 }

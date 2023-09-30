@@ -12,7 +12,7 @@ import AddNote from './components/home.jsx';
 import GetAudioNotes from './components/getAudioNotes.jsx';
 import ViewProfile from './components/viewProfile.jsx';
 import CreateTasks from './components/createTasks.jsx'; 
-
+import ProfilePhoto from './components/profilePhoto';
 function App() {
 
   return (
@@ -59,6 +59,7 @@ function Home() {
          <Route path="/Note-App/GetAudioNotes" element={<GetAudioNotes />} />
          <Route path="/Note-App/ViewProfile" element={<ViewProfile />} />
          <Route path="/Note-App/CreateTasks" element={<CreateTasks />} />
+         <Route path="/Note-App/profilePhoto" element={<ProfilePhoto/>}></Route>
          
         </Routes>
       </Router>

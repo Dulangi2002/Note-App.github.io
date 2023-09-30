@@ -1,29 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { doc, deleteDoc, getDocs, collection, addDoc } from "firebase/firestore";
+import { doc, deleteDoc, getDocs, collection, addDoc, getDoc , query , where  } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
 import { getFirestore } from "firebase/firestore";
 import { ref, deleteObject, getStorage, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import { signOut } from "firebase/auth";
 import EditEmailForm from './editEmail.jsx';
-import ProfilePhoto from './profilePhoto.jsx';
+
+
 
 
 function ViewProfile({ userEmail, firestore }) {
 
+    const storage = getStorage();
 
     const [loading, setLoading] = useState(true);
-    const auth = getAuth();
-    const navigate = useNavigate();
+    const [profilePhotoUrl, setProfilePhotoUrl] = useState(null);
     const [isEditEmailFormVisible, setIsEditEmailFormVisible] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
-
-
-
-
-
-
-
+    const db = getFirestore();
+    const auth = getAuth();
+    const navigate = useNavigate();
+    const [profilePhoto, setProfilePhoto] = useState(null);
 
 
 
@@ -95,81 +93,95 @@ function ViewProfile({ userEmail, firestore }) {
     // }
 
 
+    const navigateToProfilePhotoPage = () => {
+        navigate('/Note-App/profilePhoto');
+    }
 
 
 
 
 
-
-    
-
-
-
-
-    const saveProfilePhoto = async (profilePicDataUrl) => {
-        const storage = getStorage();
-        const auth = getAuth();
-        const user = auth.currentUser;
-        const userEmail = user.email;
+    // const saveProfilePhoto = async (profilePicDataUrl) => {
+    //     const storage = getStorage();
+    //     const auth = getAuth();
+    //     const user = auth.currentUser;
+    //     const userEmail = user.email;
 
 
 
-        try {
+    //     try {
 
-            if (user) {
-                const storageRef = ref(storage, `users/${userEmail}/profilePic`);
-                getDownloadURL(ref(storage, `users/${userEmail}/profilePic`));
-                const uploadTask = uploadBytesResumable(storageRef, profilePicDataUrl);
-                uploadTask.on('state_changed',
-                    (snapshot) => {
-                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                        console.log('Upload is ' + progress + '% done');
-                    },
-                    (error) => {
-                        console.log(error);
-                    },
-                    async () => {
-                        try {
-                            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-                            console.log('File available at', downloadURL);
-                            const db = getFirestore();
-                            const userDocRef = collection(db, "users", userEmail, "profilePic");
-                            const userData = {
-                                profilePic: downloadURL
-                            }
-                            await addDoc(userDocRef, userData);
-                            console.log("Profile picture saved");
+    //         if (user) {
+    //             const storageRef = ref(storage, `users/${userEmail}/profilePic`);
+    //             getDownloadURL(ref(storage, `users/${userEmail}/profilePic`));
+    //             const uploadTask = uploadBytesResumable(storageRef, profilePicDataUrl);
+    //             uploadTask.on('state_changed',
+    //                 (snapshot) => {
+    //                     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+    //                     console.log('Upload is ' + progress + '% done');
+    //                 },
+    //                 (error) => {
+    //                     console.log(error);
+    //                 },
+    //                 async () => {
+    //                     try {
+    //                         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+    //                         console.log('File available at', downloadURL);
+    //                         const db = getFirestore();
+    //                         const userDocRef = collection(db, "users", userEmail, "profilePic");
+    //                         const userData = {
+    //                             profilePic: downloadURL
+    //                         }
+    //                         await addDoc(userDocRef, userData);
+    //                         console.log("Profile picture saved");
 
-                        } catch (error) {
-                            console.log(error);
-                        }
-                    }
-                );
-            }
+    //                     } catch (error) {
+    //                         console.log(error);
+    //                     }
+    //                 }
+    //             );
+    //         }
 
-        } catch (error) {
-            console.log(error);
-        }
-
-
-
-    };
-
-  
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
 
 
 
-
+    // };
 
 
     useEffect(() => {
         const auth = getAuth();
+
+        const fetchProfilePhoto = async (userEmail) => {
+            try {
+                const userDocRef = doc(db, 'users', userEmail);
+                const docSnap = await getDoc(userDocRef);
+                
+                
+        if (docSnap.exists()) {
+            const userProfile = docSnap.data();
+            const profilePhotoUrl = userProfile.profilePhoto ;
+            setProfilePhoto(profilePhotoUrl);
+          } else {
+            console.log('User document not found');
+          }
+
+            } catch (error) {
+              console.error('Error fetching profile photo:', error);
+            }
+          };
+          
 
 
         onAuthStateChanged(auth, (user) => {
             setLoading(false);
             if (user) {
                 setCurrentUser(user);
+                const userEmail = user.email;
+                // Call the fetchProfilePicture function with the user's email
+                fetchProfilePhoto(userEmail);
 
 
 
@@ -178,7 +190,8 @@ function ViewProfile({ userEmail, firestore }) {
             }
         });
 
-      
+    
+
 
     }, [userEmail]);
 
@@ -197,9 +210,19 @@ function ViewProfile({ userEmail, firestore }) {
         <div>
             <h1>View Profile</h1>
 
-       
-            <ProfilePhoto />
-          
+            <div>
+      {profilePhoto ? (
+        <img src={profilePhoto} alt="Profile" />
+      ) : (
+        <p>No profile photo available</p>
+      )}
+    </div>
+
+
+            <button
+                onClick={navigateToProfilePhotoPage}
+            > Add a photo</button>
+
 
             <div>
                 <h2>{currentUser?.displayName}</h2>
@@ -214,6 +237,7 @@ function ViewProfile({ userEmail, firestore }) {
                 {isEditEmailFormVisible && <EditEmailForm email={currentUser?.email} />}
                 {/* <EditEmailForm email={currentUser?.email} />                     */}
                 <img src={currentUser?.photoURL} alt="user profile" />
+                <img src="" alt="" />
 
                 <button onClick={deleteAccount}>
                     Delete account

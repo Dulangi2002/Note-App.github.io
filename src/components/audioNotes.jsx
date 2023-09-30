@@ -1,14 +1,17 @@
-import React, { useEffect } from "react";
+import React, { Fragment, useEffect } from "react";
 import { useState, useRef } from "react";
 import { storage } from '../firebase';
-import { getAuth  } from "firebase/auth";
-import { uploadBytesResumable, getDownloadURL, ref } from "firebase/storage";
+import { getAuth } from "firebase/auth";
+import { uploadBytesResumable, getDownloadURL, ref  } from "firebase/storage";
+import { collection, addDoc } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore";
+import  { useNavigate} from "react-router-dom";
 
 
 //let user =  getAuth().currentUser;
 //let userEmail = user.email;
 
-const mimeType = 'audio/webm'; // audio/webm or audio/ogg or audio/wav
+const mimeType = 'audio/mp3'; // audio/webm or audio/ogg or audio/wav
 
 function AddAudioNotes() {
     const [permission, setPermission] = useState(false);
@@ -17,7 +20,18 @@ function AddAudioNotes() {
     const [audioChunks, setAudioChunks] = useState([]);
     const [audio, setAudio] = useState(null);
     const [audioStream, setAudioStream] = useState(null);
+    const [audioNoteName, setAudioNoteName] = useState(null);
+    const [ globalDownloadUrl, setGlobalDownloadUrl] = useState('');
+    const db = getFirestore();
+    let user = getAuth().currentUser;
+    let userEmail = user.email;
+    const navigate = useNavigate();
 
+
+
+    function handleAudioNoteName(event) {
+        setAudioNoteName(event.target.value);
+    }
 
 
     const getPermission = async () => {
@@ -55,8 +69,8 @@ function AddAudioNotes() {
 
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
         const analyser = audioContext.createAnalyser();
-        const source = audioContext.createMediaStreamSource(audioStream); // Assuming 'stream' is your audio input
-        source.connect(analyser); // Connect the source to the analyser for visualization
+        const source = audioContext.createMediaStreamSource(audioStream); 
+        source.connect(analyser); 
         analyser.fftSize = 32;
         const bufferLength = analyser.frequencyBinCount;
         const dataArray = new Uint8Array(bufferLength);
@@ -172,27 +186,44 @@ function AddAudioNotes() {
 
             setAudio(audio);
             setAudioChunks([]);
-            //audio.play();
+            audio.play();
+          
+            
+
+            
+
         };
     };
+   
 
+  
 
+    const saveRecording = async (e) => {
+        e.preventDefault();
 
-    const saveRecording = () => {
-        
-        let user  =  getAuth().currentUser;
+        let user = getAuth().currentUser;
+        let userEmail = user.email;
+
         if (!user) {
             alert("Please login to save your recording");
             return;
-        } 
+        }
 
 
-         let userEmail = user.email;
-         const storageRef = ref(
+        
+
+        const metadata = { 
+            contentType: 'audio/mp3',
+            customMetadata: {
+                'user': userEmail
+            }
+        };
+        // let userEmail = user.email;
+        const storageRef = ref(
             storage,
             `audio/${userEmail}/${Math.random().toString(36).substring(2)}.mp3`
-          );
-                  const uploadTask = uploadBytesResumable(storageRef, audioChunks[0]);
+        );
+        const uploadTask = uploadBytesResumable(storageRef, audioChunks , metadata);
         uploadTask.on('state_changed',
             (snapshot) => {
                 const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -206,13 +237,53 @@ function AddAudioNotes() {
                 }
             },
             () => {
-                // Upload completed successfully, now we can get the download URL
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    setGlobalDownloadUrl(downloadURL);
                     console.log('File available at', downloadURL);
+                  
                 });
 
             });
+
+        saveAudioNoteToFirebase();
+        navigate('/Note-App/FetchNotes');
+
+
+
+
     };
+
+
+    async function  saveAudioNoteToFirebase (){
+        try {
+            const downloadURL = globalDownloadUrl;
+            const audioNotesCollection = collection(db, "users", userEmail, "audioNotes");
+            const audioNote = { audioNoteName, audioUrl: downloadURL };
+            const audioNoteRef = await   addDoc(audioNotesCollection, audioNote);
+            console.log("Audio note added with ID: ", audioNoteRef.id);
+            localStorage.removeItem("audioUrl");
+
+            
+        } catch (error) {
+            console.log("Error adding audio note", error);
+            
+        }
+     }
+
+
+     useEffect(() => {
+        
+    if('mediaSession' in navigator){
+        const player = document.querySelector('audio'); 
+        navigator.mediaSession.setActionHandler('play', function() { player.play(); });
+        navigator.mediaSession.setActionHandler('pause', function() { player.pause(); });
+    
+
+    }
+}, [audio]);
+
+    
+
 
 
     /*const downloadRecording = () => {
@@ -241,9 +312,14 @@ function AddAudioNotes() {
 
 
         } 
+
+
+        
 */
 
-      
+
+
+
 
 
 
@@ -286,6 +362,11 @@ function AddAudioNotes() {
     */
 
 
+        
+
+ 
+
+
 
     return (
         <div>
@@ -293,11 +374,14 @@ function AddAudioNotes() {
             <main>
 
                 <div className="audio-controls">
+
                     {!permission ? (
+
                         <button onClick={getPermission} type="button">
                             Get Microphone
                         </button>
                     ) : null}
+
                     {permission && recordingStatus === "inactive" ? (
                         <button onClick={startRecording} type="button">
                             Start Recording
@@ -322,7 +406,7 @@ function AddAudioNotes() {
                     ) : null}
 
                 </div>
-              {/* {audio ? (
+                {/* {audio ? (
                     <div className="audio-container">
                         <audio src={audio} controls></audio>
                         <a href="#" onClick={downloadRecording}>
@@ -336,14 +420,29 @@ function AddAudioNotes() {
               ) : null}*/}
 
                 {
-                    audio ? (
-                        <button onClick={saveRecording} type="button">
-                            Save Recording
-                        </button>
+                    audio ? 
+                    (
+                        <div>
+                            
+
+                            <audio id="audioPlayer" controls>
+                                <source src={audio.file} type="audio/mp3" />
+                            </audio>
+
+                            
+                            <label htmlFor="AudioNoteName"> Add a Name for your audio note</label>
+                            <input type="text" onChange={handleAudioNoteName}/>
+                            <button onClick={saveRecording} type="button">
+                                Save Recording
+                            </button>
+                            <div>
+
+                            </div>
+                        </div>
                     ) : null
                 }
 
-       { /*  <button onClick={playRecording}>Play Audio</button>*/}
+                { /*  <button onClick={playRecording}>Play Audio</button>*/}
 
 
                 <canvas id="canvas" width="300" height="300" hidden={false}></canvas>

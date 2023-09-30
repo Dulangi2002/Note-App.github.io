@@ -1,20 +1,62 @@
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, doc, updateDoc ,deleteDoc , getDoc } from 'firebase/firestore';
 import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { auth, firestore, storage } from '../firebase';
-import AddNote from './home';
-import { uploadBytesResumable, getDownloadURL, ref } from "firebase/storage";
-import AddAudioNotes from './audioNotes';
+//import { ref } from "firebase/storage";
+import { useNavigate } from 'react-router-dom';
+import { typographyClasses } from '@mui/material';
+import { getDownloadURL , ref , getStorage } from 'firebase/storage';
+
+
+
 
 function FetchNotes() {
   const [notes, setNotes] = useState([]);
-  const [note , setNote] = useState([]);
+  //const [currentNote, setCurrentNote] = useState ({ id: null, title: '', content: '', file: '' });
+  //  const [note, setNote] = useState([]);
   const [loading, setLoading] = useState(true);
   const userEmail = auth.currentUser ? auth.currentUser.email : null;
-  const [showCreateNoteForm, setShowCreateNoteForm] = useState(false);
-  const [url , setUrl] = useState('');
-  const storageRefForDownload = ref(storage, note.file);
-  const downloadUrl = note.file
+  const [url, setUrl] = useState('');
+  const [editNote, setEditNote] = useState(false);
+  const [ colorFilter , setColorFilter ] = useState([]);
+  const [ selectedColor , setSelectedColor ] = useState("all");
+  const [ sharedata , setShareData ] = useState('');
+  const [ result , setResult ] = useState('');
+  const [DownloadNote , setDownloadNote] = useState('');
+  const [ file , setFile ] = useState(null);
+  const [ fileType , setFileType ] = useState(null);
+
+  const navigate = useNavigate();
+
+  // const handleshareButtonClick = async (note) => {
+
+    
+  //   try {
+       
+  //       let data = {
+  //       title: note.title,
+  //       text: note.content,
+  //       url: note.file,
+  //       //  url: 'https:dulangi2002.github.io/Note-App/${note.id}'
+  //     }
+  //     await navigator.share(data)
+  //     setResult('Page shared successfully')
+  //   } catch (error) {
+  //     console.log(error);
+  //     setResult('Error sharing: ' + error)
+  //   }
+  // }
+
+
+
+
+
+
+ 
+
+  // const storageRefForDownload = ref(storage, note.file);
+  //const downloadUrl = note.file
+
 
   /*const downloadFile = async () => {
     try{
@@ -58,16 +100,100 @@ function FetchNotes() {
   }
 }*/
 
-  
+  const getCreateAudioNoteForm = () => {
+    navigate('/Note-App/addAudioNote')
+
+  };
 
   const getCreateNoteForm = () => {
-    return <AddNote />;
+    navigate('/Note-App/AddNote');
   };
 
-  const getCreateAudioNoteForm = () => {
-    return <AddAudioNotes />;
+  const fetchAudioNotes = () => {
+    navigate('/Note-App/GetAudioNotes');
+  }
 
+  const viewProfile = () => {
+    navigate('/Note-App/ViewProfile');
+  }
+
+
+
+  const goToTasks = () => { 
+    navigate('/Note-App/CreateTasks');
+
+  }
+
+
+  const deleteNote = async (id) => {
+    try {
+      await getDocs(collection(firestore, "users", userEmail, "notes"));
+      const docRef = doc(firestore, 'users', userEmail, 'notes', id);
+      await deleteDoc(docRef);
+      console.log("Note deleted successfully!");
+      setNotes(notes.filter((note) => note.id !== id));
+
+    } catch (error) {
+      console.error("Error deleting note:", error);
+    }
   };
+
+
+
+
+  
+  
+
+  {/*}
+  const updateNote = (id, updatedNote) => {
+    setEditNote(false)
+    setNotes(notes.map((note) => (note.id === id ? updatedNote : note)))
+  }
+
+  const EditNote = note => {
+    setEditNote(true)
+    setCurrentNote({
+      id: note.id,
+      title: note.title,
+      content: note.content,
+      file: note.file
+    })
+
+  }*/}
+
+
+  const handleColorFilterSelect = (event) => {  
+    setSelectedColor(event.target.value);
+  };
+
+  const filteredNotes = notes.filter((note) => {
+    if (selectedColor === "all") {
+      return true;
+    } else {
+      return note.colorLabel === selectedColor;
+    }
+  });
+
+  const handleshareButtonClick = async (note) => {
+
+    
+    try {
+     await navigator.share({
+        title: note.title,
+        text: note.content,
+        url: note.file,
+        //  url: 'https:dulangi2002.github.io/Note-App/${note.id}'
+      })
+
+      setResult('Page shared successfully')
+    } catch (error) {
+      console.log(error);
+      setResult('Error sharing: ' + error)
+    }
+  }
+
+
+
 
   useEffect(() => {
     const auth = getAuth();
@@ -75,6 +201,8 @@ function FetchNotes() {
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
+
+        
 
         const fetchNotes = async () => {
           try {
@@ -89,7 +217,14 @@ function FetchNotes() {
             console.log(notesData);
             setNotes((prevNotes) => [...prevNotes, ...notesData]);
             setNotes(notesData);
+
+            
             setLoading(false);
+
+            const colorSet = new Set( notesData.map((note) => note.colorLabel));
+            setColorFilter(["all" , ...colorSet]);
+
+
           } catch (error) {
             console.error("Error fetching notes:", error);
             setLoading(false);
@@ -97,9 +232,11 @@ function FetchNotes() {
         }
 
 
+          
+
 
         fetchNotes();
-      
+
 
       } else {
         setLoading(false);
@@ -109,11 +246,11 @@ function FetchNotes() {
 
 
 
-    });
+    } );
 
 
 
-
+    
 
     // console.log(user);
 
@@ -127,25 +264,125 @@ function FetchNotes() {
 
 
   return (
-    <div>
+
+
+  <div className='filter'>
+     {/*<select name="" value={selectedColor} onChange={handleColorFilterSelect} id="">
+        {colorFilter.map((color) => (
+          <option value={color}>{color}</option>
+        ))}
+
+      </select>
+      <ul>
+        {filteredNotes.map((note) => (
+          <li key={note.id}>
+            {note.title}
+          </li>
+        ))}
+
+        </ul>*/}
+
       {loading ? (
         <p>Loading...</p>
       ) : (
         <div>
 
-
           <div>
-            <button onClick={() => setShowCreateNoteForm(true)}>Add new note</button>
-            {showCreateNoteForm && getCreateNoteForm()}
+            <button onClick={fetchAudioNotes}> Get audio notes </button>
+          </div>
+          <div>
+            <button onClick={getCreateNoteForm}>create new note</button>
           </div>
 
           <div>
-            <button onClick={() => setShowCreateNoteForm(true)}>Add new audio note</button>
-            {showCreateNoteForm && getCreateAudioNoteForm()}
+            <button onClick={getCreateAudioNoteForm}>create audio note</button>
           </div>
 
 
-          {notes.map((note) => (
+          <div>
+            <button onClick={viewProfile}>go to profile</button>
+          </div>
+
+          <div>
+            <button onClick={goToTasks}>View your tasks</button>
+          </div>
+          {
+            colorFilter.map((color) => (
+              <select name="" value={selectedColor} onChange={handleColorFilterSelect} id="" key={color}>
+                <option value={color}>{color}</option>
+              </select>
+            ))
+          }
+
+         {/* <select name="" value={selectedColor} onChange={handleColorFilterSelect}
+          id="">
+        {colorFilter.map((color) => (
+          <option value={color}>{color}</option>
+        ))}
+
+        </select>*/}
+
+      
+        {filteredNotes.map((note) => (
+
+         <div className="card" key={note.id}>
+              <div className="card-body">
+                <h5 className="card-title">{note.title}</h5>
+                {
+                  note.file && <img src={note.file} alt="file" />
+                }
+                  <a href={note.file} download={note.file} >download</a>  
+
+
+                
+              
+                <p className="card-text">{note.createdAt.toDate().toString()}</p>
+
+
+                <a className="card-text" >{note.file}</a>
+                <p className="card-text" contentEditable="true" suppressContentEditableWarning onInput={
+
+                  (event) => {
+                    const newContent = event.target.innerText;
+                    console.log(newContent);
+                    const docRef = doc(firestore, 'users', userEmail, 'notes', note.id);
+                    updateDoc(docRef, {
+                      content: newContent
+                    })
+
+
+
+                  }
+                }>{note.content}</p>
+                <p>
+                  {note.colorLabel}
+                </p>
+             
+
+               <button onClick={deleteNote.bind(this, note.id)} className="btn btn-danger">Delete</button>
+                <button onClick={ 
+                  () => {
+                    handleshareButtonClick(note);
+
+                  }
+                
+                      
+                }> share note</button>
+                <p>{result}</p> 
+
+
+                 
+            
+                 
+
+              </div>
+        </div>
+        ))}
+        
+      
+
+
+          {/*{notes.map((note) => (
             <div className="card" key={note.id}>
               <div className="card-body">
                 <h5 className="card-title">{note.title}</h5>
@@ -153,21 +390,54 @@ function FetchNotes() {
                   note.file && <img src={note.file} alt="file" />
                 }
 
-                <a href="{downloadURL}" download={note.file} >download</a>
+                <a href={note.file} download={note.file} >download</a>
 
                 <p className="card-text">{note.createdAt.toDate().toString()}</p>
-            
 
-                  
-              
-                <a className="card-text">{note.file}</a>
-                <p className="card-text">{note.content}</p>
+
+                <a className="card-text" >{note.file}</a>
+                <p className="card-text" contentEditable="true" suppressContentEditableWarning onInput={
+
+                  (event) => {
+                    const newContent = event.target.innerText;
+                    console.log(newContent);
+                    const docRef = doc(firestore, 'users', userEmail, 'notes', note.id);
+                    updateDoc(docRef, {
+                      content: newContent
+                    })
+
+
+
+                  }
+                }>{note.content}</p>
+                <p>
+                  {note.colorLabel}
+                </p>
+
+                <button onClick={deleteNote.bind(this, note.id)} className="btn btn-danger">Delete</button>
+
 
               </div>
-            </div>
-          ))}
+        </div> 
+
+              ))}*/}
         </div>
       )}
+      {/*
+      {
+        editNote ? (
+          <Fragment>
+            <h2>Edit note</h2>
+            <EditNoteForm
+              editNote={editNote} 
+              setEditNote={setEditNote}
+              currentNote={setCurrentNote}
+              updateNote={updateNote}
+
+            />
+          </Fragment>
+        ) : null
+      }*/}
     </div>
   );
 }

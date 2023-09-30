@@ -4,6 +4,8 @@ import { useState } from "react";
 import { getFirestore, collection, addDoc, doc } from "firebase/firestore";
 import { uploadBytesResumable, getDownloadURL, ref } from "firebase/storage";
 import { storage } from "../firebase";
+import { useNavigate } from "react-router-dom";
+import { SketchPicker } from 'react-color';
 
 
 function AddNote() {
@@ -11,8 +13,12 @@ function AddNote() {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [file, setFile] = useState('');
-    const [percent, setPercent] = useState(0);
-    
+    const [colorLabel, setColorLabel] = useState('');
+    const [filesArray, setFilesArray] = useState([]);
+    const [fileType, setFileType] = useState('');
+
+    const navigate = useNavigate();
+
     const auth = getAuth();
     const db = getFirestore();
 
@@ -20,67 +26,73 @@ function AddNote() {
     function handleFileChange(event) {
         const file = event.target.files[0];
         setFile(file);
-    
+
+        if(file.type === 'image/png' || file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/gif') {
+            setFileType('image');
+        }
+        else if(file.type === 'application/pdf') {
+            setFileType('pdf');
+        }
+        else{
+            setFileType('other');
+        }
+        
+
+
+
     }
 
     const handleAddNote = async (e) => {
         e.preventDefault();
         try {
 
-            
+
             //const db = getFirestore();
             const user = auth.currentUser;
             const userEmail = user.email;
             const url = URL.createObjectURL(file);
             console.log(user);
             if (user) {
+
                 const storageRef = ref(storage, `users/${userEmail}/notes/${file.name}`);
-                getDownloadURL(ref (storage , `users/${userEmail}/notes/${file.name}`)
+                // const downloadURL = await getDownloadURL(storageRef);
+                getDownloadURL(ref(storage, `users/${userEmail}/notes/${file.name}`)
                 );
+
                 const uploadTask = uploadBytesResumable(storageRef, file);
-                const downloadURL = (await getDownloadURL(uploadTask.snapshot.ref));
-                
-                    const xhr = new XMLHttpRequest();
-                    xhr.responseType = 'blob';
-                    xhr.onload = (event) => {
-                        if(xhr.status == 200){
-                            const blob = xhr.response;
-                            console.log('Blob', blob);
-                            const blobUrl = URL.createObjectURL(blob);
-                            const a = document.createElement('a');
-                            a.href = blobUrl;
-                            a.download = file.name;
-                            document.body.appendChild(a);
-                            a.click();
-                            a.remove();
+                uploadTask.on('state_changed',
+                    (snapshot) => {
+                        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        console.log('Upload is ' + progress + '% done');
+                    },
+                    (error) => {
+                        console.log(error);
+                    },
+                    async () => {
+                        try {
+                            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                            console.log('File available at', downloadURL);
+                            const note = {
+                                title,
+                                content,
+                                file: downloadURL,
+                                colorLabel,
+                                createdAt: new Date()
+                            }
+                            const notesCollection = collection(db, "users", userEmail, "notes");
 
-                             URL.revokeObjectURL(blobUrl);
+                            await addDoc(notesCollection, note);
+                            navigate('/Note-App/FetchNotes');
+                            console.log("Document successfully written!");
 
-                            
-
-                        } else{
-                            console.log('Error code', xhr.status);
+                        } catch (error) {
+                            console.log(error);
                         }
-                             
-                    
-                    };
-                    xhr.open('GET', url);
-                    xhr.send();
-                
 
-              
-                console.log('File available at', downloadURL);
-                
-                const note = {
-                    title,
-                    content,
-                    file: downloadURL,
-                    createdAt: new Date()
-                }
-                const notesCollection = collection(db, "users", userEmail, "notes");
+                    }
+                );
+               
 
-                await addDoc(notesCollection, note);
-                console.log("Document successfully written!");
             } else {
                 console.log("No user is signed in");
             }
@@ -94,9 +106,9 @@ function AddNote() {
     return (
         <>
 
-            <button>
+            {/*<button>
                 <a href="/Note-App/CreateTasks">Fetch tasks</a>
-            </button>
+    </button>*/}
 
             <div className="lg:bg-black w-full border-2">
                 <h1>Add a Note</h1>
@@ -113,8 +125,15 @@ function AddNote() {
 
                     <div className="form-group">
                         <label htmlFor="file">File</label>
-                        <input type="file" className="form-control" id="file" placeholder="File" onChange={handleFileChange} />
+                        <input type="file" className="form-control" id="file" placeholder="File" onChange={handleFileChange} multiple />
                     </div>
+
+                    <div className="form-group">
+                        <label htmlFor="colorLabel">Color Label</label>
+                        <SketchPicker color={colorLabel} onChangeComplete={(color) => setColorLabel(color.hex)} />
+                    </div>
+
+
                     <button type="submit" className="btn btn-primary" onClick={handleAddNote} > Add Note</button>
                 </form>
             </div>

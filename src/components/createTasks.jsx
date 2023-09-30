@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, collection, addDoc, getDocs  , doc , setDoc , deleteDoc} from "firebase/firestore";
 import { firestore } from "../firebase";
-import  TaskReminderNotification  from "./notification";
-
+import EditTask from "./editTask";
 
 
 function CreateTasks() {
@@ -11,7 +10,12 @@ function CreateTasks() {
     const [completed, setCompleted] = useState(false);
     const [task_name, setTaskName] = useState("");
     const [tasks, setTasks] = useState([]);
-    const [completedTaskCount, setCompletedTaskCount] = useState(0);
+    //const [isEditing, setIsEditing] = useState(false);  
+    const [editingStates, setEditingStates] = useState({});
+
+
+
+    //const [completedTaskCount, setCompletedTaskCount] = useState(0);
     const auth = getAuth();
     const db = getFirestore();
 
@@ -29,19 +33,34 @@ function CreateTasks() {
     const handleTaskCompletion = async (id) => {
         try {
           let task = tasks.find((task) => task.id === id);
-          task.completed = !task.completed;
-      
-          const docRef = doc(db, "users", auth.currentUser.email, "tasks", id);
-          await setDoc(docRef, task); // Update the document with the modified task data
-      
-          // Call the deleteFromFirebase function to delete the document
-          await deleteFromFirebase(id);
+          const updateTask = 
+          tasks.map((task) => {
+            if (task.id === id) {
+                task.completed = !task.completed;
+                setCompleted(task.completed);
+                console.log(task.completed);
+                console.log(task);
+                return task;
+            } else {
+                return task;
+            }
+            });
+            setTasks(updateTask);
+            console.log(updateTask);
+            const docRef = doc(db, "users", auth.currentUser.email, "tasks", id);
+            await setDoc(docRef, {
+                task_name: task.task_name,
+                date: task.date,
+                completed: task.completed,
+            });
+            console.log("Document successfully updated!");
+          //await deleteFromFirebase(id);
         } catch (e) {
           console.error("Error updating document: ", e);
         }
       };
       
-      const deleteFromFirebase = async (id) => {
+      /*const deleteFromFirebase = async (id) => {
         try {
           const docRef = doc(db, "users", auth.currentUser.email, "tasks", id);
           await deleteDoc(docRef);
@@ -50,7 +69,7 @@ function CreateTasks() {
           console.error("Error removing document: ", e);
         }
       };
-      
+      */
 
 
       
@@ -80,7 +99,70 @@ function CreateTasks() {
     };
 
 
+    /*
+    const handleEditClick = () => {
+        setIsEditing(true);
+    };*/
 
+
+  /*  const handleEditClick = (task) => {
+        setIsEditing(true);
+        console.log(task);
+       return (
+            <EditTask
+            task_ID={task.id}
+            task_name={task.task_name}
+            date={task.date}
+            completed={task.completed}
+            id={task.id}
+          />
+       )
+    };*/
+
+
+
+
+
+    const toggleEdit = (task_ID) => {
+        setEditingStates((prev) =>({
+            ...prev,
+            [task_ID]: !prev[task_ID]
+        }) );
+    };
+
+
+    
+
+   
+
+
+    const EditTaskForm = (task) => {
+          
+          return (
+            <div>
+                <EditTask
+                    task_ID={task.id}
+                    task_name={task.task_name}
+                    date={task.date}
+                    completed={task.completed}
+                    id={task.id}
+                />
+            </div>
+        );
+      
+    }
+
+
+    const deleteTask = async (id) => {  
+        try {
+            const docRef = doc(db, "users", auth.currentUser.email, "tasks", id);
+            await deleteDoc(docRef);
+            console.log("Document successfully deleted!");
+            setTasks(tasks.filter((task) => task.id !== id));
+        } catch (e) {
+            console.error("Error removing document: ", e);
+        }
+    };
 
 
     useEffect(() => {
@@ -124,7 +206,6 @@ function CreateTasks() {
 
         <div>
            
-            <TaskReminderNotification />
 
             <div className="form">
                 <div>
@@ -143,13 +224,53 @@ function CreateTasks() {
             </div>
             {tasks.map((task) => (
                 <div key={task.id}>
-                    <input
-                        type="checkbox"
-                        textDecoration={task.completed ? "line-through" : null}
-                        onChange={() => handleTaskCompletion(task.id)}
-                    />
-                    <h2>{task.task_name}</h2>
+                    <input 
+                    type="checkbox"
+                    checked={task.completed}
+                    onChange={() => handleTaskCompletion(task.id)}
+                     />
+                    <h2
+                        style={{    
+                            textDecoration: task.completed ? "line-through" : 'none',
+                        }}
+
+                    
+                    >{task.task_name}</h2>
+                    <h2> {task.id}</h2>
                     <p>{task.date}</p>
+
+                    <button onClick={ () => toggleEdit(task.id)}>Edit </button>
+                    {editingStates[task.id] && <EditTaskForm
+
+                       task_ID = {task.id}
+                       task_name={task.task_name}
+                       date={task.date}
+                       completed={task.completed}
+                       id={task.id} />
+                    }
+                    
+
+
+                    {/*<button onClick={
+                        () => handleEditClick(task)
+                     }> 
+                        <span>Edit</span>
+                    </button>*/}
+
+
+          
+                  {/*<EditTask
+                         task_ID = {task.id}
+                         task_name={task.task_name}
+                        date={task.date}
+                        completed={task.completed}
+                        id={task.id}
+                    />*/}
+                    <button onClick={
+                        () => deleteTask(task.id)
+                    }>
+                        <span>Delete</span>
+                    </button>
                     
                 </div>
             ))}

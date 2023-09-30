@@ -1,9 +1,7 @@
 import React, {useState} from 'react';
-import ReactDOM from "react-dom/client";
 import { auth } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { doc } from 'firebase/firestore';
-
+import { useNavigate } from 'react-router-dom';
 
 
 function Signup() {
@@ -14,15 +12,15 @@ function Signup() {
     e.preventDefault();
     await createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed in 
+       
         const user = userCredential.user;
         console.log(user);
-        // ...
+        navigate("/Note-App/FetchNotes")
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(error);
+        console.log(error , errorMessage, errorCode);
         // ..
       });
 
@@ -32,7 +30,7 @@ function Signup() {
    
  
     <div>
-      <h1>Signup</h1>
+      <h1 className=" font-bold underline">Signup</h1>
         <form action="">
             <label htmlFor="email">Email</label>
             <input type="text" name="email" id="" onChange={(e) =>setEmail(e.target.value)}/>

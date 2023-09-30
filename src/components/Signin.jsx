@@ -28,7 +28,7 @@ function SignIn() {
     }
     return (
         <div>
-            <div className="form-control absolute ">
+            <div className="form-control mb-24 w-48 mt-56  ">
 
                 <form action="" className='bg-purple-700 opacity-50 '>
                     <div className='mb-4'>

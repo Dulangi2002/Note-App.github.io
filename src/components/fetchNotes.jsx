@@ -1,11 +1,11 @@
-import { collection, getDocs, doc, updateDoc ,deleteDoc , getDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, updateDoc, deleteDoc, getDoc } from 'firebase/firestore';
 import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { auth, firestore, storage } from '../firebase';
 //import { ref } from "firebase/storage";
 import { useNavigate } from 'react-router-dom';
 import { typographyClasses } from '@mui/material';
-import { getDownloadURL , ref , getStorage } from 'firebase/storage';
+import { getDownloadURL, ref, getStorage } from 'firebase/storage';
 
 
 
@@ -18,21 +18,21 @@ function FetchNotes() {
   const userEmail = auth.currentUser ? auth.currentUser.email : null;
   const [url, setUrl] = useState('');
   const [editNote, setEditNote] = useState(false);
-  const [ colorFilter , setColorFilter ] = useState([]);
-  const [ selectedColor , setSelectedColor ] = useState("all");
-  const [ sharedata , setShareData ] = useState('');
-  const [ result , setResult ] = useState('');
-  const [DownloadNote , setDownloadNote] = useState('');
-  const [ file , setFile ] = useState(null);
-  const [ fileType , setFileType ] = useState(null);
+  const [colorFilter, setColorFilter] = useState([]);
+  const [selectedColor, setSelectedColor] = useState("all");
+  const [sharedata, setShareData] = useState('');
+  const [result, setResult] = useState('');
+  const [DownloadNote, setDownloadNote] = useState('');
+  const [file, setFile] = useState(null);
+  const [fileType, setFileType] = useState(null);
 
   const navigate = useNavigate();
 
   // const handleshareButtonClick = async (note) => {
 
-    
+
   //   try {
-       
+
   //       let data = {
   //       title: note.title,
   //       text: note.content,
@@ -52,7 +52,7 @@ function FetchNotes() {
 
 
 
- 
+
 
   // const storageRefForDownload = ref(storage, note.file);
   //const downloadUrl = note.file
@@ -119,7 +119,7 @@ function FetchNotes() {
 
 
 
-  const goToTasks = () => { 
+  const goToTasks = () => {
     navigate('/Note-App/CreateTasks');
 
   }
@@ -141,8 +141,8 @@ function FetchNotes() {
 
 
 
-  
-  
+
+
 
   {/*}
   const updateNote = (id, updatedNote) => {
@@ -162,7 +162,7 @@ function FetchNotes() {
   }*/}
 
 
-  const handleColorFilterSelect = (event) => {  
+  const handleColorFilterSelect = (event) => {
     setSelectedColor(event.target.value);
   };
 
@@ -176,12 +176,20 @@ function FetchNotes() {
 
   const handleshareButtonClick = async (note) => {
 
-    
+
     try {
-     await navigator.share({
+
+      const fileURLs = note.files.map((file) => {
+        return file instanceof File
+          ? URL.createObjectURL(file) // Create object URLs for local files
+          : file; // Use the file URLs directly if they are already online
+      });
+
+
+      await navigator.share({
         title: note.title,
         text: note.content,
-        url: note.file,
+        url: fileURLs,
         //  url: 'https:dulangi2002.github.io/Note-App/${note.id}'
       })
 
@@ -202,7 +210,7 @@ function FetchNotes() {
     onAuthStateChanged(auth, (user) => {
       if (user) {
 
-        
+
 
         const fetchNotes = async () => {
           try {
@@ -210,7 +218,9 @@ function FetchNotes() {
             const querySnapshot = await getDocs(collection(firestore, "users", userEmail, "notes"));
             const notesData = querySnapshot.docs.map((doc) => ({
               id: doc.id,
+
               ...doc.data()
+
 
 
             }));
@@ -218,11 +228,11 @@ function FetchNotes() {
             setNotes((prevNotes) => [...prevNotes, ...notesData]);
             setNotes(notesData);
 
-            
+
             setLoading(false);
 
-            const colorSet = new Set( notesData.map((note) => note.colorLabel));
-            setColorFilter(["all" , ...colorSet]);
+            const colorSet = new Set(notesData.map((note) => note.colorLabel));
+            setColorFilter(["all", ...colorSet]);
 
 
           } catch (error) {
@@ -232,7 +242,7 @@ function FetchNotes() {
         }
 
 
-          
+
 
 
         fetchNotes();
@@ -246,11 +256,11 @@ function FetchNotes() {
 
 
 
-    } );
+    });
 
 
 
-    
+
 
     // console.log(user);
 
@@ -266,8 +276,8 @@ function FetchNotes() {
   return (
 
 
-  <div className='filter'>
-     {/*<select name="" value={selectedColor} onChange={handleColorFilterSelect} id="">
+    <div className='filter'>
+      {/*<select name="" value={selectedColor} onChange={handleColorFilterSelect} id="">
         {colorFilter.map((color) => (
           <option value={color}>{color}</option>
         ))}
@@ -314,7 +324,7 @@ function FetchNotes() {
             ))
           }
 
-         {/* <select name="" value={selectedColor} onChange={handleColorFilterSelect}
+          {/* <select name="" value={selectedColor} onChange={handleColorFilterSelect}
           id="">
         {colorFilter.map((color) => (
           <option value={color}>{color}</option>
@@ -322,20 +332,31 @@ function FetchNotes() {
 
         </select>*/}
 
-      
-        {filteredNotes.map((note) => (
 
-         <div className="card" key={note.id}>
+          {filteredNotes.map((note) => (
+
+            <div className="card" key={note.id}>
               <div className="card-body">
                 <h5 className="card-title">{note.title}</h5>
-                {
+                <div>
+                  <h2>Selected Images:</h2>
+                  {Array.isArray(note.files) && note.files.map((file, index) => {
+                    // Filter files to display only images
+                    
+                    return <img key={index} src={file} alt={`Image ${index}`} />;
+                  })}
+                </div>
+
+
+
+                {/* correct code {
                   note.file && <img src={note.file} alt="file" />
                 }
-                  <a href={note.file} download={note.file} >download</a>  
+                <a href={note.file} download={note.file} >download</a> */}
 
 
-                
-              
+
+
                 <p className="card-text">{note.createdAt.toDate().toString()}</p>
 
 
@@ -357,29 +378,29 @@ function FetchNotes() {
                 <p>
                   {note.colorLabel}
                 </p>
-             
 
-               <button onClick={deleteNote.bind(this, note.id)} className="btn btn-danger">Delete</button>
-                <button onClick={ 
+
+                <button onClick={deleteNote.bind(this, note.id)} className="btn btn-danger">Delete</button>
+                <button onClick={
                   () => {
                     handleshareButtonClick(note);
 
                   }
-                
-                      
+
+
                 }> share note</button>
-                <p>{result}</p> 
+                <p>{result}</p>
 
 
-                 
-            
-                 
+
+
+
 
               </div>
-        </div>
-        ))}
-        
-      
+            </div>
+          ))}
+
+
 
 
           {/*{notes.map((note) => (

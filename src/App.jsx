@@ -32,7 +32,7 @@ function App() {
         <Routes>
           <Route path="/Note-App/signin" element={<Signin />} />
           <Route path="/Note-App/signup" element={<Signup />} />
-          <Route path="/Note-App/" element={<FetchNotes />} />
+          <Route path="/" element={<FetchNotes />} />
           <Route path="/Note-App/ViewProfile" element={<ViewProfile />} />
           <Route path="/Note-App/AddNote" element={<AddNote />} />
           <Route path="/Note-App/CreateNote" element={<CreateNote />} />

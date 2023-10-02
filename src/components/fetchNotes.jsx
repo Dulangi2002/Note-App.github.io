@@ -28,94 +28,12 @@ function FetchNotes() {
 
   const navigate = useNavigate();
 
-  // const handleshareButtonClick = async (note) => {
-
-
-  //   try {
-
-  //       let data = {
-  //       title: note.title,
-  //       text: note.content,
-  //       url: note.file,
-  //       //  url: 'https:dulangi2002.github.io/Note-App/${note.id}'
-  //     }
-  //     await navigator.share(data)
-  //     setResult('Page shared successfully')
-  //   } catch (error) {
-  //     console.log(error);
-  //     setResult('Error sharing: ' + error)
-  //   }
-  // }
-
-
-
-
-
-
-
-
-  // const storageRefForDownload = ref(storage, note.file);
-  //const downloadUrl = note.file
-
-
-  /*const downloadFile = async () => {
-    try{
-      const querySnapshot = await getDocs(collection(firestore, "users", userEmail, "notes"));
-            const notesData = querySnapshot.docs.map((doc) => ({
-              id: doc.id,
-              ...doc.data()
-
-            }));
-      for (let i = 0; i < notesData.length; i++) {
-        const note = notesData[i];
-        if (note.file) {
-          const downloadURL = await getDownloadURL(ref(storage, note.file));
-          console.log(downloadURL); 
-          const xhr = new XMLHttpRequest();
-          xhr.responseType = 'blob';
-          xhr.onClick = (event) => {
-            if(xhr.status == 200){
-              const blob = xhr.response;
-              console.log('Blob', blob);
-              const blobUrl = URL.createObjectURL(blob);
-              const a = document.createElement('a');
-              a.href = blobUrl;
-              a.download = note.name;
-              document.body.appendChild(a);
-              a.click();
-              a.remove();
-
-
-                URL.revokeObjectURL(blobUrl);
-
-            }
-
-          }
-          note.file = downloadURL;
-        }
-      }
-    
-  }catch (error) {
-    console.error("Error downloading file:", error);
-  }
-}*/
-
-  const getCreateAudioNoteForm = () => {
-    navigate('/Note-App/addAudioNote')
-
-  };
 
   const getCreateNoteForm = () => {
     navigate('/Note-App/AddNote');
   };
 
-  const fetchAudioNotes = () => {
-    navigate('/Note-App/GetAudioNotes');
-  }
 
-  const viewProfile = () => {
-    navigate('/Note-App/ViewProfile');
-  }
 
 
 
@@ -140,30 +58,8 @@ function FetchNotes() {
 
 
 
-
-
-
-
-  {/*}
-  const updateNote = (id, updatedNote) => {
-    setEditNote(false)
-    setNotes(notes.map((note) => (note.id === id ? updatedNote : note)))
-  }
-
-  const EditNote = note => {
-    setEditNote(true)
-    setCurrentNote({
-      id: note.id,
-      title: note.title,
-      content: note.content,
-      file: note.file
-    })
-
-  }*/}
-
-
-  const handleColorFilterSelect = (event) => {
-    setSelectedColor(event.target.value);
+  const handleColorFilterSelect = (color) => {
+    setSelectedColor(color);
   };
 
   const filteredNotes = notes.filter((note) => {
@@ -174,6 +70,17 @@ function FetchNotes() {
     }
   });
 
+
+  const handleSelectAllNotes = () => {
+    handleColorFilterSelect('all');
+    console.log('Selected Color:', selectedColor);
+
+  };
+
+
+
+
+
   const handleshareButtonClick = async (note) => {
 
 
@@ -181,8 +88,8 @@ function FetchNotes() {
 
       const fileURLs = note.files.map((file) => {
         return file instanceof File
-          ? URL.createObjectURL(file) // Create object URLs for local files
-          : file; // Use the file URLs directly if they are already online
+          ? URL.createObjectURL(file)
+          : file;
       });
 
 
@@ -261,19 +168,13 @@ function FetchNotes() {
 
 
 
-
-    // console.log(user);
-
-    // if (user) {
-    //   fetchNotes();
-    // } else {
-    //   setLoading(false);
-    // }
   }, [userEmail]);
 
 
 
   return (
+
+
 
 
     <div className='filter'>
@@ -297,32 +198,62 @@ function FetchNotes() {
       ) : (
         <div>
 
-          <div>
-            <button onClick={fetchAudioNotes}> Get audio notes </button>
-          </div>
-          <div>
-            <button onClick={getCreateNoteForm}>create new note</button>
+
+          <div className='flex  flex-row  '>
+            <div className='text-5xl  font-bold m-8 '>
+              <h1 id='notes-heading'> Your Notes</h1>
+            </div>
+
+            <div className='flex flex-col mt-8 gap-4  '>
+              <div >
+                <button onClick={goToTasks} id='submenu-buttons'>View your tasks</button>
+              </div>
+
+              <div>
+                <button onClick={getCreateNoteForm} id='submenu-buttons'>create new note</button>
+              </div>
+
+
+            </div>
+
+
           </div>
 
-          <div>
-            <button onClick={getCreateAudioNoteForm}>create audio note</button>
-          </div>
 
 
-          <div>
-            <button onClick={viewProfile}>go to profile</button>
-          </div>
 
-          <div>
-            <button onClick={goToTasks}>View your tasks</button>
-          </div>
-          {
+
+
+
+          {/* {
             colorFilter.map((color) => (
               <select name="" value={selectedColor} onChange={handleColorFilterSelect} id="" key={color}>
                 <option value={color}>{color}</option>
               </select>
             ))
-          }
+          } */}
+
+<div id='filter-band'>
+      <button>
+            
+            {colorFilter.map((color, index) => (
+              <button
+                 id='filter-buttons'
+                key={index}
+                onClick={() => handleColorFilterSelect(color)}
+                style={{
+                 
+               
+                  backgroundColor: color,
+                  marginRight: '10px'
+                }}
+              />
+            ))}
+          </button>
+
+          <button onClick={handleSelectAllNotes} id="all-notes-button"  className='text-center mt-4 border-2 px-3 py-2 rounded-full ml-8 border-red-200 shadow-lg font-bold  '>All</button>
+  
+          </div>
 
           {/* <select name="" value={selectedColor} onChange={handleColorFilterSelect}
           id="">
@@ -341,8 +272,7 @@ function FetchNotes() {
                 <div>
                   <h2>Selected Images:</h2>
                   {Array.isArray(note.files) && note.files.map((file, index) => {
-                    // Filter files to display only images
-                    
+
                     return <img key={index} src={file} alt={`Image ${index}`} />;
                   })}
                 </div>
@@ -401,64 +331,9 @@ function FetchNotes() {
           ))}
 
 
-
-
-          {/*{notes.map((note) => (
-            <div className="card" key={note.id}>
-              <div className="card-body">
-                <h5 className="card-title">{note.title}</h5>
-                {
-                  note.file && <img src={note.file} alt="file" />
-                }
-
-                <a href={note.file} download={note.file} >download</a>
-
-                <p className="card-text">{note.createdAt.toDate().toString()}</p>
-
-
-                <a className="card-text" >{note.file}</a>
-                <p className="card-text" contentEditable="true" suppressContentEditableWarning onInput={
-
-                  (event) => {
-                    const newContent = event.target.innerText;
-                    console.log(newContent);
-                    const docRef = doc(firestore, 'users', userEmail, 'notes', note.id);
-                    updateDoc(docRef, {
-                      content: newContent
-                    })
-
-
-
-                  }
-                }>{note.content}</p>
-                <p>
-                  {note.colorLabel}
-                </p>
-
-                <button onClick={deleteNote.bind(this, note.id)} className="btn btn-danger">Delete</button>
-
-
-              </div>
-        </div> 
-
-              ))}*/}
         </div>
       )}
-      {/*
-      {
-        editNote ? (
-          <Fragment>
-            <h2>Edit note</h2>
-            <EditNoteForm
-              editNote={editNote} 
-              setEditNote={setEditNote}
-              currentNote={setCurrentNote}
-              updateNote={updateNote}
 
-            />
-          </Fragment>
-        ) : null
-      }*/}
     </div>
   );
 }

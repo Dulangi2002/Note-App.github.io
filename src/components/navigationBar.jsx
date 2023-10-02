@@ -3,6 +3,10 @@ import { useAuth } from '../AuthContext';
 import { Link } from 'react-router-dom';
 import '../App.css';
 import '../index.css';
+import { auth } from '../firebase';
+import { getAuth } from "firebase/auth";
+import Wakelock from './wakelock';
+// import { askforPermissioToReceiveNotifications } from '../firebase';
 
 
 
@@ -10,33 +14,85 @@ const NavigationBar = () => {
 
     const { user, logout } = useAuth();
     return (
-        <div className='w-56 w-full bg-black ' id="navbar">
-          
 
-
-                {user ? (
-                    <>
-
-                        <div className="navbar bg-neutral text-neutral-content" >
-                        <Link  to="/Note-App/FetchNotes" id="nav-button">Notes </Link>
-                        </div>
-                        <Link to="/Note-App/ViewProfile">Profile </Link>
-                        <button onClick={logout}>Logout</button>
-
-                    </>
-                ) : (
-                    <>
-
-                       <div className="navbar bg-neutral text-neutral-content" >
-                       <Link to="/Note-App/signup">Register</Link>
-
-                       </div>
-                        <Link to="/Note-App/signin">Sign In</Link>
-
-                    </>
-                )}
+        <nav className="lg:px-16 px-8  shadow-md flex flex-wrap items-center lg:py-8 py-8 mt-8  " id='navigation-bar'>
          
-        </div>
+            <label for="menu-toggle" className="cursor-pointer lg:hidden block">
+                <svg
+                    class="fill-current text-gray-900"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 20 20"
+                >
+                    <title>menu</title>
+                    <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
+                </svg>
+            </label>
+            <input className="hidden" type="checkbox" id="menu-toggle" />
+            <div className="hidden lg:flex lg:items-center lg:w-auto w-full" id="menu">
+                <nav>
+
+
+                    <ul className="text-xl text-center items-center gap-x-5 pt-4 md:gap-x-4 lg:text-lg lg:flex  lg:pt-0">
+
+
+                        {user ? (
+                            <>
+
+                                <div className="py-2 lg:py-0  lg:p-4   md:border-b sm:border-b  border-black" >
+                                    <Link to="/Note-App/FetchNotes" className=''>Notes </Link>
+                                </div>
+
+
+
+                                <div className="py-2 lg:py-0 lg:p-4   md:border-b sm:border-b border-black ">
+                                <Link to="/Note-App/ViewProfile" className=''>Profile </Link>
+
+                                </div>
+                               
+                               <div className="py-2 lg:py-0  lg:p-4   md:border-b sm:border-b border-black">
+                               <button onClick={logout} >Logout</button>
+
+                               </div>
+                               {/* <div className="py-2 lg:py-0  lg:p-4   md:border-b sm:border-b border-black">
+                               <Wakelock />
+
+                               </div> */}
+                             
+                                {/* <button onClick={askforPermissioToReceiveNotifications}>Notify me</button> */}
+
+
+
+
+                            </>
+                        ) : (
+                            <>
+
+
+                              
+                                    <div className="py-2 lg:py-0 ">
+                                        <Link to="/Note-App/signup" className=' '>Register</Link>
+
+                                    </div>
+
+                                    <div className="py-2 lg:py-0 ">
+                                        <Link to="/Note-App/signin" className=' '>Sign In</Link>
+
+                                    </div>
+
+
+
+
+
+
+
+                            </>
+                        )}
+                    </ul>
+                </nav>
+            </div>
+        </nav>
 
     )
 

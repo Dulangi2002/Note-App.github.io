@@ -17,13 +17,17 @@ import NavigationBar from './components/navigationBar.jsx';
 import { AuthProvider } from './AuthContext.jsx';
 import { useAuth } from './AuthContext.jsx';
 
+
 function App() {
 
   return (
     <>
-      <div className="">
-     
+      <div className='-mt-12 '>
+        
+
+    
         <NavigationBar />
+
         <Routes>
           <Route path="/Note-App/signin" element={<Signin />} />
           <Route path="/Note-App/signup" element={<Signup />} />
@@ -43,7 +47,11 @@ function App() {
 
 
 
+
+
       </div>
+
+
 
    
 

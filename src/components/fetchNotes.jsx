@@ -200,11 +200,11 @@ function FetchNotes() {
 
 
           <div className='flex  flex-row  '>
-            <div className='text-5xl  font-bold m-8 '>
-              <h1 id='notes-heading'> Your Notes</h1>
+            <div className=' font-bold ml-8 '>
+              <h1 id='notes-heading' className='lg:text-5xl md:text-2xl sm:text-xl'> Your Notes</h1>
             </div>
 
-            <div className='flex flex-col mt-8 gap-4  '>
+            <div className='flex lg:flex-col mt-8 gap-4 ml-2 sm:rounded-lg '>
               <div >
                 <button onClick={goToTasks} id='submenu-buttons'>View your tasks</button>
               </div>
@@ -251,9 +251,10 @@ function FetchNotes() {
             ))}
           </button>
 
-          <button onClick={handleSelectAllNotes} id="all-notes-button"  className='text-center mt-4 border-2 px-3 py-2 rounded-full ml-8 border-red-200 shadow-lg font-bold  '>All</button>
   
           </div>
+          <button onClick={handleSelectAllNotes} id="all-notes-button"  className='text-center mt-4 border-2 px-3 py-2 rounded-full ml-8 border-red-200 shadow-lg font-bold  '>All</button>
+
 
           {/* <select name="" value={selectedColor} onChange={handleColorFilterSelect}
           id="">

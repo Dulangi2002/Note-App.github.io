@@ -16,6 +16,7 @@ import CreateTasks from './components/createTasks.jsx';
 import NavigationBar from './components/navigationBar.jsx';
 import { AuthProvider } from './AuthContext.jsx';
 import { useAuth } from './AuthContext.jsx';
+import ProfilePhoto from './components/profilePhoto.jsx';
 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
           <Route path="/Note-App/GetAudioNotes" element={<GetAudioNotes />} />
           <Route path="/Note-App/ViewProfile" element={<ViewProfile />} />
           <Route path="/Note-App/CreateTasks" element={<CreateTasks />} />
+          <Route path="/Note-App/profilePhoto" element={<ProfilePhoto />} />
 
 
 

@@ -49,24 +49,28 @@ function EditTask (props){
 
  
     return (
-        <div>
-            <h1>Edit Task</h1>
+        <div className="mt-2 mb-20  "  id="edit-task">
+        
 
-            <form onSubmit={handleEditTask}>
-                <label>
+            <form onSubmit={handleEditTask} className="form-control mt-2  gap-4 border-2 " id="edit-task-form">
+               
+                <label className="font-[DM-sans] text-md">
                     Task Name:
                     <input
-
+                       
                         type="text" 
                         name="task_name"
                         value={task_name}
                         onChange={(e) => setTaskName(e.target.value)}
                     />
                 </label>
-                <label>
+
+              
+               
+                <label className="font-[DM-sans] text-md">
                     Date:
                     <input
-
+                     
                         type="text"
                         name="date"
                         value={date}
@@ -74,7 +78,10 @@ function EditTask (props){
                     />
                 </label>
 
-                <button type="submit">Submit</button>
+               <div>
+               <button type="submit" id="update-task-button">Submit</button>
+
+               </div>
                 
             </form>
 

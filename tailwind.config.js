@@ -13,6 +13,13 @@ export default {
       
 
     },
+    fontFamily:{
+      
+      'Nunito': ['Nunito', 'sans-serif'],
+      'DM Sans': ['DM Sans', 'sans-serif'],
+      'Quicksand': ['Quicksand', 'sans-serif'],
+    
+    },
     extend: {},
   },
   plugins: [

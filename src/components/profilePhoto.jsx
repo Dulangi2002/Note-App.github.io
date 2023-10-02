@@ -161,20 +161,20 @@ function ProfilePhoto() {
             {capturedImage ? (
                 <div>
                     <img src={capturedImage} alt="Captured" style={{ width: "100%", height: "auto" }} />
-                    <button onClick={() => setCapturedImage(null)}>Discard</button>
+                    {/* <button onClick={() => setCapturedImage(null)}>Discard</button> */}
 
                     <button onClick={
                         () => {
                             navigate("/Note-App/ViewProfile");
                         }
-                    }>cancel</button>
-                    <button onClick={saveToFirebaseStorage}>Save to Firebase Storage</button>
+                    } id="take-photo-button">cancel</button>
+                    <button onClick={saveToFirebaseStorage} id="take-photo-button">Save</button>
                 </div>
             ) : (
                 <div>
                     <input type="file" accept="image/*" onChange={handleImageUpload} />
                     <video ref={videoRef} style={{ width: "100%", height: "auto" }} autoPlay />
-                    <button onClick={takePhoto}>Take Photo</button>
+                    <button onClick={takePhoto} id="take-photo-button">Take Photo</button>
                 </div>
             )}
         </div>

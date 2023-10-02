@@ -29,6 +29,8 @@ function FetchNotes() {
   const navigate = useNavigate();
 
 
+
+
   const getCreateNoteForm = () => {
     navigate('/Note-App/AddNote');
   };
@@ -175,9 +177,10 @@ function FetchNotes() {
   return (
 
 
+<div id='whole'>
 
-
-    <div className='filter'>
+   
+    <div className='filter' id='filter'>
       {/*<select name="" value={selectedColor} onChange={handleColorFilterSelect} id="">
         {colorFilter.map((color) => (
           <option value={color}>{color}</option>
@@ -196,12 +199,14 @@ function FetchNotes() {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <div>
+
+        
+        <div id=''>
 
 
-          <div className='flex  flex-row  '>
+          <div className='flex  flex-row'>
             <div className=' font-bold ml-8 '>
-              <h1 id='notes-heading' className='lg:text-5xl md:text-2xl sm:text-xl'> Your Notes</h1>
+              <h1 id='notes-heading' className='text-5xl'> Your Notes</h1>
             </div>
 
             <div className='flex lg:flex-col mt-8 gap-4 ml-2 sm:rounded-lg '>
@@ -233,27 +238,26 @@ function FetchNotes() {
             ))
           } */}
 
-<div id='filter-band'>
-      <button>
-            
-            {colorFilter.map((color, index) => (
-              <button
-                 id='filter-buttons'
-                key={index}
-                onClick={() => handleColorFilterSelect(color)}
-                style={{
-                 
-               
-                  backgroundColor: color,
-                  marginRight: '10px'
-                }}
-              />
-            ))}
-          </button>
+          <div id='filter-band'>
+            <button>
 
-  
+              {colorFilter.map((color, index) => (
+                <button
+                  id='filter-buttons'
+                  key={index}
+                  onClick={() => handleColorFilterSelect(color)}
+                  style={{
+
+                    backgroundColor: color,
+                    marginRight: '10px'
+                  }}
+                />
+              ))}
+            </button>
+
+
           </div>
-          <button onClick={handleSelectAllNotes} id="all-notes-button"  className='text-center mt-4 border-2 px-3 py-2 rounded-full ml-8 border-red-200 shadow-lg font-bold  '>All</button>
+          {/* <button onClick={handleSelectAllNotes} id="all-notes-button" className='text-center mt-4 border-2 px-3 py-2 rounded-full ml-8 border-red-200 shadow-lg font-bold  '>All</button> */}
 
 
           {/* <select name="" value={selectedColor} onChange={handleColorFilterSelect}
@@ -265,76 +269,125 @@ function FetchNotes() {
         </select>*/}
 
 
-          {filteredNotes.map((note) => (
+          <div id='note-blocks'>
+            {filteredNotes.map((note) => (
 
-            <div className="card" key={note.id}>
-              <div className="card-body">
-                <h5 className="card-title">{note.title}</h5>
-                <div>
-                  <h2>Selected Images:</h2>
-                  {Array.isArray(note.files) && note.files.map((file, index) => {
+              <div id='single-note-block'>
+                <div
+                  className=' '
+                  id='label-block'
+                  style={{
+                    backgroundColor: note.colorLabel,
+                  }}
+                >
 
-                    return <img key={index} src={file} alt={`Image ${index}`} />;
-                  })}
                 </div>
+                <p className="card-text mt-8 " >{note.createdAt.toDate().toLocaleString()}</p>
+
+                <div className="" key={note.id}>
+                  <div className="card-body">
+                    <h5 className="card-title font-[DM sans] text-xl" contentEditable="true" suppressContentEditableWarning onInput={
+                      (event) => {
+                        const newTitle = event.target.innerText;
+                        console.log(newTitle);
+                        const docRef = doc(firestore, 'users', userEmail, 'notes', note.id);
+                        updateDoc(docRef, {
+                          title: newTitle
+                        })
+                      }
+                    }>{note.title}</h5>
+
+                    <div className='flex flex-row '>
+                      <div>
+                        <button onClick={deleteNote.bind(this, note.id)} className="" id='delete-button'>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
+                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
+                          </svg>   </button>
+                      </div>
+
+                      <div>
+
+                        <button onClick={
+                          () => {
+                            handleshareButtonClick(note);
+
+                          }
 
 
-
-                {/* correct code {
-                  note.file && <img src={note.file} alt="file" />
-                }
-                <a href={note.file} download={note.file} >download</a> */}
-
-
+                        } id='share-button'><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
+                            <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z" />
+                          </svg>  </button>
+                        <p>{result}</p>
+                      </div>
 
 
-                <p className="card-text">{note.createdAt.toDate().toString()}</p>
-
-
-                <a className="card-text" >{note.file}</a>
-                <p className="card-text" contentEditable="true" suppressContentEditableWarning onInput={
-
-                  (event) => {
-                    const newContent = event.target.innerText;
-                    console.log(newContent);
-                    const docRef = doc(firestore, 'users', userEmail, 'notes', note.id);
-                    updateDoc(docRef, {
-                      content: newContent
-                    })
-
-
-
-                  }
-                }>{note.content}</p>
-                <p>
-                  {note.colorLabel}
-                </p>
-
-
-                <button onClick={deleteNote.bind(this, note.id)} className="btn btn-danger">Delete</button>
-                <button onClick={
-                  () => {
-                    handleshareButtonClick(note);
-
-                  }
-
-
-                }> share note</button>
-                <p>{result}</p>
-
+                    </div>
 
 
 
 
+                    <p className="card-text font-[Nunito] text-xl" contentEditable="true" suppressContentEditableWarning onInput={
 
+                      (event) => {
+                        const newContent = event.target.innerText;
+                        console.log(newContent);
+                        const docRef = doc(firestore, 'users', userEmail, 'notes', note.id);
+                        updateDoc(docRef, {
+                          content: newContent
+                        })
+
+
+
+                      }
+                    }>{note.content}</p>
+                    <div>
+                      <h2> Images:</h2>
+                      {Array.isArray(note.files) && note.files.map((file, index) => {
+
+                        return <img key={index} src={file} alt={`Image ${index}`} className='h-56 w-56 border rounded' />;
+                      })}
+                    </div>
+
+
+
+                    {/* correct code {
+      note.file && <img src={note.file} alt="file" />
+    }
+    <a href={note.file} download={note.file} >download</a> */}
+
+
+
+
+                    {/* <p className="card-text">{note.createdAt.toDate().toString()}</p> */}
+
+
+
+
+
+
+
+
+
+
+
+
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+
+            ))}
+
+
+          </div>
+
+
 
 
         </div>
       )}
 
+    </div>
     </div>
   );
 }

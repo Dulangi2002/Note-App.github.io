@@ -7,8 +7,8 @@ function SplashPage(){
         <h1>Splash Page</h1>
         {!user && (
           <>
-            <button onClick={login}>Sign In</button>
-            <button>Register</button>
+          
+          
           </>
         )}
         {user && <button>Logout</button>}

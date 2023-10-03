@@ -2,12 +2,14 @@ import React, {useState} from 'react';
 import { auth } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../AuthContext';
 
 
 function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -16,7 +18,7 @@ function Signup() {
        
         const user = userCredential.user;
         console.log(user);
-        navigate("/Note-App/FetchNotes")
+        navigate("/")
       })
       .catch((error) => {
         const errorCode = error.code;

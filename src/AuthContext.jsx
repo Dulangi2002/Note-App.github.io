@@ -15,44 +15,24 @@ export const AuthProvider = ({ children }) => {
     const [loading , setLoading] = useState(true);  
     const auth = getAuth();
     const navigate = useNavigate();
-
-    const signOutUser = async () => {
-        await signOut(auth).then(() => {
-            console.log('user signed out');
-            setUser(null);
-            navigate('/Note-App/signin');
-        }).catch((error) => {
-            console.log(error);
-        })
-        
-    }
-    
+     
 
 
     useEffect(() => {
-
-    onAuthStateChanged(auth, (user) => {
-        setLoading(false);
-        if(user) {
-            console.log(user);
+        onAuthStateChanged(auth, (user) => {
             setUser(user);
-            navigate('/');
-        }
-        else {
-            setUser(null);
-            navigate('/Note-App/signin');
-        }
-    }   )
-
-
-});
+            setLoading(false);
+            
+          
+        });
+    }, [auth, navigate]);
 
 
       
    const signup = (email, password) => {
-        // localStorage.setItem("isAuthenticated", true);
-        // setIsAuthenticated(true);
+        
         Signup(email, password);
+        setUser(user);
        
     }
 
@@ -64,14 +44,10 @@ export const AuthProvider = ({ children }) => {
       
     }
 
-    const logout = () => {
-        // localStorage.removeItem("isAuthenticated");
-        // setIsAuthenticated(false);
-        signOutUser();
-        navigate('/Note-App/signin');
-       
-       
-
+    const logout = async () => {
+        await signOut(auth);
+        setUser(null);
+        navigate("/Note-App/signin");
     
     }
 

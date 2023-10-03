@@ -25,18 +25,19 @@ export const AuthProvider = ({ children }) => {
     
 
 
-useEffect(() => {
+    useEffect(() => {
 
     onAuthStateChanged(auth, (user) => {
         setLoading(false);
-        if (user) {
-          console.log('user is signed in');
-          setUser(user);
-        } else {
-          console.log('user is signed out');
-          setUser(null);
+        if(user) {
+            setUser(user);
+            navigate('/');
         }
-      });
+        else {
+            setUser(null);
+            navigate('/Note-App/signin');
+        }
+    }   )
 
 
 });

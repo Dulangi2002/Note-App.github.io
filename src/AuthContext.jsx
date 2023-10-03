@@ -45,7 +45,6 @@ export const AuthProvider = ({ children }) => {
       SignIn();
       const currentUser = auth.currentUser;
       setUser(currentUser? currentUser.email : null);
-      
       setPersistence(auth, browserLocalPersistence);
 
       

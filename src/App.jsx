@@ -24,13 +24,13 @@ function App() {
   const navigate = useNavigate();
 
 
-  useEffect(() => {
-    if (user == null)
-      navigate("/Note-App/signin")
-  }
-    ,
+  // useEffect(() => {
+  //   if (user == null)
+  //     navigate("/Note-App/signin")
+  // }
+  //   ,
 
-    [user])
+  //   [user])
 
 
 
@@ -40,7 +40,7 @@ function App() {
         <>
 
           <Routes>
-          <Route path="/" element={<SplashPage />} />
+          <Route path="/" element={<FetchNotes />} />
 
             <Route path="/Note-App/ViewProfile" element={<ViewProfile />} />
             <Route path="/Note-App/AddNote" element={<AddNote />} />

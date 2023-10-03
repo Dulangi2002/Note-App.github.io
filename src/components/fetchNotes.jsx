@@ -1,11 +1,9 @@
-import { collection, getDocs, doc, updateDoc, deleteDoc, getDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { auth, firestore, storage } from '../firebase';
+import { auth, firestore } from '../firebase';
 //import { ref } from "firebase/storage";
 import { useNavigate } from 'react-router-dom';
-import { typographyClasses } from '@mui/material';
-import { getDownloadURL, ref, getStorage } from 'firebase/storage';
 
 
 

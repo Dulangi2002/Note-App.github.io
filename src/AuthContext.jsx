@@ -17,10 +17,14 @@ export const AuthProvider = ({ children }) => {
     const navigate = useNavigate();
 
     const signOutUser = async () => {
-
-        console.log('signing out');
-        await signOut(auth);
-        navigate('/Note-App/signin');
+        await signOut(auth).then(() => {
+            console.log('user signed out');
+            setUser(null);
+            navigate('/Note-App/signin');
+        }).catch((error) => {
+            console.log(error);
+        })
+        
     }
     
 
@@ -30,6 +34,7 @@ export const AuthProvider = ({ children }) => {
     onAuthStateChanged(auth, (user) => {
         setLoading(false);
         if(user) {
+            console.log(user);
             setUser(user);
             navigate('/');
         }
@@ -63,6 +68,8 @@ export const AuthProvider = ({ children }) => {
         // localStorage.removeItem("isAuthenticated");
         // setIsAuthenticated(false);
         signOutUser();
+        navigate('/Note-App/signin');
+       
        
 
     

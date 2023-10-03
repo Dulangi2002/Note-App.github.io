@@ -36,26 +36,15 @@ function App() {
 
         <NavigationBar />
 
-          <Routes>
-            {user ? (
-              <Route path="/" element={<FetchNotes />} />
-            ) : (
-              <Route path="/Note-App/signin" element={<Signin />} />
-            )}
-            {/* Rest of your routes */}
-          </Routes>
-
-
-
+         
    
         <Routes>
-        <Route path="/Note-App/signin" element={<Signin />} />
+          <Route path="/Note-App/signin" element={<Signin />} />
 
-          <Route path="/Note-App/signup" element={<Signup />} />
           <Route path="/Note-App/ViewProfile" element={<ViewProfile />} />
           <Route path="/Note-App/AddNote" element={<AddNote />} />
           <Route path="/Note-App/CreateNote" element={<CreateNote />} />
-          <Route path="/Note-App/FetchNotes" element={<FetchNotes />} />
+          <Route path="/" element={<FetchNotes />} />
           <Route path="/Note-App/addAudioNote" element={<AddAudioNotes />} />
           <Route path="/Note-App/GetAudioNotes" element={<GetAudioNotes />} />
           <Route path="/Note-App/ViewProfile" element={<ViewProfile />} />

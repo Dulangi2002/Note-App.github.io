@@ -3,6 +3,7 @@ import SignIn from "./components/Signin";
 import Signup from "./components/Signup";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { setPersistence , browserLocalPersistence } from "firebase/auth";
 
 
 
@@ -22,6 +23,7 @@ export const AuthProvider = ({ children }) => {
         onAuthStateChanged(auth, (user) => {
             setUser(user);
             setLoading(false);
+
             
           
         });
@@ -30,9 +32,10 @@ export const AuthProvider = ({ children }) => {
 
       
    const signup = (email, password) => {
-        
         Signup(email, password);
-        setUser(user);
+        const currentUser = auth.currentUser;
+        setUser(currentUser? currentUser.email : null);
+        setPersistence(auth, browserLocalPersistence);
        
     }
 
@@ -40,7 +43,11 @@ export const AuthProvider = ({ children }) => {
 
     const signin = () => {
       SignIn();
-      setUser(user);
+      const currentUser = auth.currentUser;
+      setUser(currentUser? currentUser.email : null);
+      
+      setPersistence(auth, browserLocalPersistence);
+
       
     }
 

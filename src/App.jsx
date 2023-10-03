@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Signup from './components/Signup.jsx';
 import Signin from './components/Signin.jsx';
-
+import SplashPage from './components/splashPage';
 import CreateNote from './components/createNote';
 import AddAudioNotes from './components/audioNotes.jsx';
 import FetchNotes from './components/fetchNotes';
@@ -24,8 +24,6 @@ function App() {
   const navigate = useNavigate();
 
 
-
-
   useEffect(() => {
     if (user == null)
       navigate("/Note-App/signin")
@@ -42,6 +40,8 @@ function App() {
         <>
 
           <Routes>
+          <Route path="/" element={<SplashPage />} />
+
             <Route path="/Note-App/ViewProfile" element={<ViewProfile />} />
             <Route path="/Note-App/AddNote" element={<AddNote />} />
             <Route path="/Note-App/CreateNote" element={<CreateNote />} />

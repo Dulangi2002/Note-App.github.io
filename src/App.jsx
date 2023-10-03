@@ -1,7 +1,7 @@
 
 import './App.css'
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Link, RouterProvider } from 'react-router-dom'
 import Signup from './components/Signup.jsx';
 import Signin from './components/Signin.jsx';
 
@@ -21,14 +21,36 @@ import ProfilePhoto from './components/profilePhoto.jsx';
 
 function App() {
 
+  const { user } = useAuth();
+
+  if (user) {
+    console.log('user is signed in');
+  }
+
+
   return (
     <>
       <div className='-mt-12 '>
-        
 
-    
+
+
         <NavigationBar />
 
+        <Router>
+
+          <Routes>
+            {user ? (
+              <Route path="/" element={<FetchNotes />} />
+            ) : (
+              <Route path="/" element={<Signin />} />
+            )}
+            {/* Rest of your routes */}
+          </Routes>
+
+        </Router>
+
+
+        {/* 
         <Routes>
           <Route path="/Note-App/signin" element={<Signin />} />
           <Route path="/Note-App/signup" element={<Signup />} />
@@ -45,7 +67,7 @@ function App() {
 
 
 
-        </Routes>
+        </Routes> */}
 
 
 
@@ -55,7 +77,7 @@ function App() {
 
 
 
-   
+
 
 
 

@@ -9,9 +9,7 @@ import { useNavigate } from "react-router-dom";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    // const [isAuthenticated, setIsAuthenticated] = useState(
-    //     localStorage.getItem("isAuthenticated") || false
-    // );
+   
 
     const [user , setUser] = useState('null');
     const auth = getAuth();
@@ -26,14 +24,21 @@ export const AuthProvider = ({ children }) => {
     
 
 
+useEffect(() => {
+
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+          console.log('user is signed in');
+          setUser(user);
+        } else {
+          console.log('user is signed out');
+          setUser(null);
+        }
+      });
 
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            setUser(user);
-        });
-        return () => unsubscribe();
-    }, [auth]);
+});
+
 
       
    const signup = (email, password) => {
@@ -47,6 +52,7 @@ export const AuthProvider = ({ children }) => {
 
     const signin = () => {
       SignIn();
+      setUser(user);
       
     }
 

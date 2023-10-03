@@ -18,7 +18,7 @@ function Signup() {
        
         const user = userCredential.user;
         console.log(user);
-        navigate("/")
+        navigate("/Note-App/")
       })
       .catch((error) => {
         const errorCode = error.code;

@@ -80,9 +80,6 @@ function FetchNotes() {
   };
 
 
-
-
-
   const handleshareButtonClick = async (note) => {
 
 
@@ -116,56 +113,40 @@ function FetchNotes() {
     const auth = getAuth();
     const user = auth.currentUser;
 
-    onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-
-
-
         const fetchNotes = async () => {
           try {
             setUrl("getting link")
             const querySnapshot = await getDocs(collection(firestore, "users", userEmail, "notes"));
             const notesData = querySnapshot.docs.map((doc) => ({
-              id: doc.id,
-
-              ...doc.data()
-
-
+              id: doc.id,   ...doc.data()
 
             }));
             console.log(notesData);
             setNotes((prevNotes) => [...prevNotes, ...notesData]);
             setNotes(notesData);
-
-
             setLoading(false);
-
             const colorSet = new Set(notesData.map((note) => note.colorLabel));
             setColorFilter(["all", ...colorSet]);
-
-
           } catch (error) {
             console.error("Error fetching notes:", error);
             setLoading(false);
           }
         }
-
-
-
-
-
-        fetchNotes();
+         fetchNotes();
 
 
       } else {
         setLoading(false);
+        navigate('/Note-App/signin');
 
       }
-
-
-
-
     });
+
+    return () => {
+      unsubscribe();
+    }
 
 
 
@@ -176,34 +157,14 @@ function FetchNotes() {
 
   return (
 
-
 <div id='whole'>
-
-   
     <div className='filter' id='filter'>
-      {/*<select name="" value={selectedColor} onChange={handleColorFilterSelect} id="">
-        {colorFilter.map((color) => (
-          <option value={color}>{color}</option>
-        ))}
-
-      </select>
-      <ul>
-        {filteredNotes.map((note) => (
-          <li key={note.id}>
-            {note.title}
-          </li>
-        ))}
-
-        </ul>*/}
-
       {loading ? (
         <p>Loading...</p>
       ) : (
 
         
-        <div id=''>
-
-
+        <div>
           <div className='flex  flex-row'>
             <div className=' font-bold ml-8 '>
               <h1 id='notes-heading' className='text-5xl'> Your Notes</h1>
@@ -225,19 +186,6 @@ function FetchNotes() {
           </div>
 
 
-
-
-
-
-
-          {/* {
-            colorFilter.map((color) => (
-              <select name="" value={selectedColor} onChange={handleColorFilterSelect} id="" key={color}>
-                <option value={color}>{color}</option>
-              </select>
-            ))
-          } */}
-
           <div id='filter-band'>
             <button>
 
@@ -257,16 +205,7 @@ function FetchNotes() {
 
 
           </div>
-          {/* <button onClick={handleSelectAllNotes} id="all-notes-button" className='text-center mt-4 border-2 px-3 py-2 rounded-full ml-8 border-red-200 shadow-lg font-bold  '>All</button> */}
-
-
-          {/* <select name="" value={selectedColor} onChange={handleColorFilterSelect}
-          id="">
-        {colorFilter.map((color) => (
-          <option value={color}>{color}</option>
-        ))}
-
-        </select>*/}
+        
 
 
           <div id='note-blocks'>
@@ -348,23 +287,6 @@ function FetchNotes() {
                         return <img key={index} src={file} alt={`Image ${index}`} className='h-56 w-56 border rounded' />;
                       })}
                     </div>
-
-
-
-                    {/* correct code {
-      note.file && <img src={note.file} alt="file" />
-    }
-    <a href={note.file} download={note.file} >download</a> */}
-
-
-
-
-                    {/* <p className="card-text">{note.createdAt.toDate().toString()}</p> */}
-
-
-
-
-
 
 
 

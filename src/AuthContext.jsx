@@ -11,7 +11,8 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
    
 
-    const [user , setUser] = useState('null');
+    const [user , setUser] = useState(null);
+    const [loading , setLoading] = useState(true);  
     const auth = getAuth();
     const navigate = useNavigate();
 
@@ -27,6 +28,7 @@ export const AuthProvider = ({ children }) => {
 useEffect(() => {
 
     onAuthStateChanged(auth, (user) => {
+        setLoading(false);
         if (user) {
           console.log('user is signed in');
           setUser(user);

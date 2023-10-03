@@ -36,18 +36,17 @@ function App() {
 
         <NavigationBar />
 
-        <Router>
+     
 
           <Routes>
             {user ? (
               <Route path="/" element={<FetchNotes />} />
             ) : (
-              <Route path="/" element={<Signin />} />
+              <Route path="/Note-App/signin" element={<Signin />} />
             )}
             {/* Rest of your routes */}
           </Routes>
 
-        </Router>
 
 
         {/* 

@@ -113,7 +113,7 @@ function FetchNotes() {
     const auth = getAuth();
     const user = auth.currentUser;
 
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+   onAuthStateChanged(auth, (user) => {
       if (user) {
         const fetchNotes = async () => {
           try {
@@ -145,7 +145,7 @@ function FetchNotes() {
     });
 
     return () => {
-      unsubscribe();
+     
     }
 
 

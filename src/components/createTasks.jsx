@@ -10,12 +10,10 @@ function CreateTasks() {
     const [completed, setCompleted] = useState(false);
     const [task_name, setTaskName] = useState("");
     const [tasks, setTasks] = useState([]);
-    //const [isEditing, setIsEditing] = useState(false);  
     const [editingStates, setEditingStates] = useState({});
 
 
 
-    //const [completedTaskCount, setCompletedTaskCount] = useState(0);
     const auth = getAuth();
     const db = getFirestore();
 
@@ -60,19 +58,6 @@ function CreateTasks() {
         }
     };
 
-    /*const deleteFromFirebase = async (id) => {
-      try {
-        const docRef = doc(db, "users", auth.currentUser.email, "tasks", id);
-        await deleteDoc(docRef);
-        console.log("Document successfully deleted!");
-      } catch (e) {
-        console.error("Error removing document: ", e);
-      }
-    };
-    */
-
-
-
     const handleAddTask = async (e) => {
 
 
@@ -89,6 +74,7 @@ function CreateTasks() {
                     completed: false,
 
                 });
+                setTasks((prevTasks) => [...prevTasks, { id: docRef.id, task_name, date, completed }]);
 
                 console.log("Document written with ID: ", docRef.id);
             }
@@ -99,29 +85,6 @@ function CreateTasks() {
     };
 
 
-    /*
-    const handleEditClick = () => {
-        setIsEditing(true);
-    };*/
-
-
-    /*  const handleEditClick = (task) => {
-          setIsEditing(true);
-          console.log(task);
-         return (
-              <EditTask
-              task_ID={task.id}
-              task_name={task.task_name}
-              date={task.date}
-              completed={task.completed}
-              id={task.id}
-            />
-         )
-      };*/
-
-
-
-
 
     const toggleEdit = (task_ID) => {
         setEditingStates((prev) => ({
@@ -129,11 +92,6 @@ function CreateTasks() {
             [task_ID]: !prev[task_ID]
         }));
     };
-
-
-
-
-
 
 
     const EditTaskForm = (task) => {

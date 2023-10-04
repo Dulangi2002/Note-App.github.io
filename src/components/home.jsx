@@ -25,8 +25,6 @@ function AddNote() {
 
 
     function handleFileChange(event) {
-     
-
         const files = event.target.files;
         setFiles(Array.from(files));
         console.log(files);
@@ -34,19 +32,12 @@ function AddNote() {
         setFilesArray(filesArray);
         console.log(filesArray);
 
-
-
-
-      
-
     }
 
     const handleAddNote = async (e) => {
         e.preventDefault();
         if (Array.isArray(files) && files.length > 0) {
             try {
-
-
                 const user = auth.currentUser;
                 const userEmail = user.email;
                 console.log(user);
@@ -66,10 +57,6 @@ function AddNote() {
 
                         const fileDownloadURLs = await Promise.all(promises);
                         console.log(fileDownloadURLs);
-
-
-
-       
                         const note = {
                             title,
                             content,

@@ -1,29 +1,47 @@
 import React, { useState } from 'react';
-import { auth } from "../firebase";
+import { auth, firestore } from "../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
+import { getFirestore , collection  , getDocs , where } from "firebase/firestore";
 
 
 function SignIn() {
     const { SignIn } = useAuth();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [validationerror, setValidationerror] = useState("");
     const navigate = useNavigate();
+    const db = getFirestore();
+
 
     const handleSignIn = async (e) => {
         e.preventDefault();
-        await signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                console.log(user);
-                navigate("/Note-App/");
+        if (!password || !email) {
+            setValidationerror("Please enter your email and password");
+            return;
+        }
+        if (
+            getDocs(collection( firestore, "users"), where("email", "==", email)).then((querySnapshot) => {
+                if (querySnapshot.size > 0) {
+                    setValidationerror("User already exists");
+                    return;
+                }
+            }
+          )
+        )
 
-            })
-            .catch((error) => {
-                console.log(error);
+            await signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    console.log(user);
+                    navigate("/Note-App/");
 
-            });
+                })
+                .catch((error) => {
+                    console.log(error);
+
+                });
 
     }
     return (
@@ -31,6 +49,7 @@ function SignIn() {
             <div className=" ">
 
                 <form action="" className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'>
+                    <p>{validationerror}</p>
                     <div className='mb-4'>
                         <label htmlFor="email" className=" text-gray-700 text-sm font-bold mb-2">Email</label>
                         <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700  focus:outline-none focus:shadow-outline  " type="text" name="email" id="" onChange={(e) => setEmail(e.target.value)} />

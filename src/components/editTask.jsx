@@ -14,6 +14,7 @@ function EditTask (props){
     const [date, setDate] = useState(props.date);
     const [completed, setCompleted] = useState(props.completed);
     const [editingStates, setEditingStates] = useState({});
+    const [tasks, setTasks] = useState([]);
 
     const refreshPage = () => {
         window.location.reload();
@@ -34,11 +35,10 @@ function EditTask (props){
                     date: date,
                     completed: completed,
                 });
-                
 
                 console.log("Document edited ");
                // console.log(completed)
-               refreshPage();
+                  refreshPage();
             }
 
         } catch (e) {

@@ -60,7 +60,6 @@ const NavigationBar = () => {
 
                                </div> */}
                              
-                                {/* <button onClick={askforPermissioToReceiveNotifications}>Notify me</button> */}
 
 
 

@@ -79,7 +79,7 @@ function Signup() {
 
         <div  className='flex flex-col m-4 font-bold'>
           <div>
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password" className='text-sm font-bold'>Password</label>
 
           </div>
 

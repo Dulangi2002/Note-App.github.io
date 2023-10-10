@@ -45,33 +45,50 @@ function SignIn() {
 
     }
     return (
-        <div class="w-full max-w-xs" >
-            <div className=" ">
+        <div id='sign-in' >
+                  <h1 className=" font-bold underline m-4 text-center text-3xl text-white ">Sign In</h1>
 
-                <form action="" className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'>
+
+                <form action="" className='mt-32  ml-2 mr-2 pt-4 rounded pb-2' id='signin-form'>
+                    <div className='flex flex-col m-4 '>
+
+                        <div>
+                        <label htmlFor="email" className="text-sm font-bold">Email</label>
+
+                        </div>
+
+                        <div>
+                        <input className="w-80 rounded  " type="text" name="email" id="" onChange={(e) => setEmail(e.target.value)} />
+
+                        </div>
+                     
+                    </div>
+
+                    <div className='flex flex-col m-4 font-bold'>
+
+                        <div>
+                        <label htmlFor="password" className='text-sm font-bold '>Password</label>
+
+                        </div>
+
+                        <div>
+                        <input className=" w-80 rounded " type="text" name="password" id="" onChange={(e) => setPassword(e.target.value)} />
+
+                        </div>
+
+                    </div>
+
                     <p>{validationerror}</p>
-                    <div className='mb-4'>
-                        <label htmlFor="email" className=" text-gray-700 text-sm font-bold mb-2">Email</label>
-                        <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700  focus:outline-none focus:shadow-outline  " type="text" name="email" id="" onChange={(e) => setEmail(e.target.value)} />
-                        <br />
-                    </div>
 
-                    <div>
-
-                        <label htmlFor="password" className=' text-gray-700 text-sm font-bold mb-2'>Password</label>
-                        <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline " type="text" name="password" id="" onChange={(e) => setPassword(e.target.value)} />
-                    </div>
-
-                    <br />
                     <div class="flex items-center justify-between">
-                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={handleSignIn}>Signin</button>
+                        <button className="bg-red-300 w-80  m-4 h-10  text-center pt-2 rounded font-bold " onClick={handleSignIn}>Signin</button>
 
                         <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
                             Forgot Password?
                         </a>
                     </div>
                 </form>
-            </div>
+           
         </div>
     );
 }

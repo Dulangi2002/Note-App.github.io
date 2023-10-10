@@ -34,7 +34,9 @@ function SplashPage(){
           </button>
         </div>
         <div>
-          <img src="/assets/splash3.jpg" alt="" id='' className='w-full lg:h-full h-96'/>
+          <img src="
+          /src/assets/splash3.jpg
+          " alt="" id='' className='w-full h-full '/>
         </div>
       </div>
 

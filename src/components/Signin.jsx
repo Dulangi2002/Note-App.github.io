@@ -45,7 +45,7 @@ function SignIn() {
 
     }
     return (
-        <div className=' lg:pb-20 pb-8 lg:grid grid-cols-2 ' id='main-background' >
+        <div className=' pb-8 lg:grid grid-cols-2 ' id='main-background' >
             <div>
                 <img src="/src/assets/signup.jpg" alt="" id='main-image' />
             </div>

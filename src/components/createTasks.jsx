@@ -251,7 +251,7 @@ function CreateTasks() {
 
 
 
-            <button onClick={handleClickAddTask} className="flex flex-row  bg-green-300  w-56 h-12 rounded justify-center m-4 pt-3" id="open-create-task-form">
+            <button onClick={handleClickAddTask} className="flex flex-row  bg-green-300  w-56 h-12 rounded justify-center m-4  gap-2" id="open-create-task-form">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
@@ -285,7 +285,7 @@ function CreateTasks() {
                             </select>
                         </div>
 
-                        <button onClick={handleAddTask} id="" className="bg-gray-200 rounded h-8 font-[Nunito] ">
+                        <button onClick={handleAddTask} id="" className="bg-gray-200 rounded h-8 font-[Nunito ]  ">
                             <span>Add</span>
                         </button>
                         <button onClick={
@@ -356,7 +356,7 @@ function CreateTasks() {
                                 </div>
 
                                 <div>
-                                    <p className="p-2 font-[Nunito] ml-2 "> Due date : {task.date}</p>
+                                    <p className="p-2 font-[Nunito] ml-2 text-sm  "> Due date : {task.date}</p>
 
                                 </div>
 

@@ -65,14 +65,16 @@ body{
 
 #submenu-buttons{
   background-color: #6E7582;
-  padding: 15px;
+  padding: 8px;
   border-radius: 25px;
   box-shadow: #ffc0c0 0px 0px 10px;
   color: #ffc0c0;
-  font-weight: 700;
+  font-weight: 600;
+  height: 40px;
+  padding-left: 10px;
+  padding-right: 10px;
 
 
-  
 
 }
 
@@ -310,6 +312,7 @@ body{
 
 #open-create-task-form{
   align-items: baseline;
+  padding: 13px;
   
 }
 
@@ -318,8 +321,7 @@ body{
 
 
 #single-task{
- border-bottom: #000000 1px solid;
- border-style: dashed;
+ 
  align-items: baseline;
 }
 

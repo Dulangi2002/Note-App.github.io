@@ -249,9 +249,9 @@ function FetchNotes({ note }) {
 
           <div className=''>
             <div className=' font-bold  '>
-              <h1 id='notes-heading' className='text-5xl ml-4 lg:ml-20'> Your Notes</h1>
+              <h1 id='notes-heading' className='text-4xl ml-4 lg:ml-20 '> Your Notes</h1>
             </div>
-            <div className='flex  mt-8 gap-4 lg:ml-20 ml-2  sm:rounded-lg '>
+            <div className='flex  mt-2 gap-4 lg:ml-20 ml-3  sm:rounded-lg '>
               <div >
                 <button onClick={goToTasks} id='submenu-buttons' className=' '> View Tasks</button>
               </div>
@@ -272,7 +272,7 @@ function FetchNotes({ note }) {
               <details className="dropdown " onChange={(e) => setSelectedCategory(e.target.value)} >
                 <summary className=" btn font-bold font-[Nunito] text-sm -mb-4">
 
-                  Folders</summary>
+                My Folders</summary>
                 <select className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
                   <option value="all" className='text-sm'>All</option>
                   {categories.map((category) => (
@@ -284,7 +284,7 @@ function FetchNotes({ note }) {
 
             </div>
 
-            <div className='mt-2 ml-8 '>
+            <div className=' ml-8 '>
 
               <CreateCategory />
             </div>
@@ -304,7 +304,7 @@ function FetchNotes({ note }) {
 
                   }}>
 
-                  <div className='flex flex-row   '>
+                  <div className='flex flex-row  justify-end  '>
                     <div>
                       <button onClick={deleteNote.bind(this, note.id)} className="" id='delete-button'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">

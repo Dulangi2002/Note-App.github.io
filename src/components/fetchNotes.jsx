@@ -29,7 +29,7 @@ function FetchNotes({ note }) {
   const [categoryFilter, setCategoryFilter] = useState([]);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isZoomed, setIsZoomed] = useState(false);
- 
+
   const [expandedNotesForImages, setExpandedNotesForImages] = useState([]);
   const [index, setIndex] = useState(0);
 
@@ -43,12 +43,12 @@ function FetchNotes({ note }) {
     const updatedexpandedNotesForImages = [...expandedNotesForImages, index];
     setExpandedNotesForImages(updatedexpandedNotesForImages);
   };
-  
+
   const handleShowLessImages = (index) => {
     const updatedexpandedNotesForImages = expandedNotesForImages.filter((item) => item !== index);
     setExpandedNotesForImages(updatedexpandedNotesForImages);
   };
-  
+
 
 
   const handleExpand = () => {
@@ -232,7 +232,7 @@ function FetchNotes({ note }) {
 
     <div >
 
-      <CreateCategory />
+
 
       {/* create filter for the categories */}
 
@@ -244,15 +244,7 @@ function FetchNotes({ note }) {
 
         <div  >
 
-          <select onChange={(e) => setSelectedCategory(e.target.value)}>
 
-            <option value="all">All</option>
-            {categories.map((category) => (
-              <option value={category.category_name}>{category.category_name}</option>
-            ))}
-
-
-          </select>
 
 
           <div className=''>
@@ -268,7 +260,48 @@ function FetchNotes({ note }) {
             </div>
           </div>
 
+
+          <div className='flex flex-row ml-4 mt-4 -mb-4 lg:ml-20   '>
+
+            <div className=''>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24 " fill="currentColor" class="bi bi-files" viewBox="0 0 16 16" className=''>
+                <path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z" />
+              </svg>
+            </div>
+            <div>
+              <details className="dropdown " onChange={(e) => setSelectedCategory(e.target.value)} >
+                <summary className=" btn font-bold font-[Nunito] text-sm -mb-4">
+
+                  Folders</summary>
+                <select className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+                  <option value="all" className='text-sm'>All</option>
+                  {categories.map((category) => (
+
+                    <option value={category.category_name}>{category.category_name}</option>
+                  ))}
+                </select>
+              </details>
+
+            </div>
+
+            <div className='mt-2 ml-8 '>
+
+              <CreateCategory />
+            </div>
+
+
+
+          </div>
+
+
+
+
+
           <div className='grid grid-cols-1 lg:grid-cols-4 lg:ml-20 '>
+
+
+
+
 
 
 
@@ -282,14 +315,67 @@ function FetchNotes({ note }) {
 
                   }}>
 
-                  <p>
-                    {note.category}
-                  </p>
-                  <p className="card-text mt-8 " >{note.createdAt.toDate().toLocaleString()}</p>
+                  <div className='flex flex-row   '>
+                    <div>
+                      <button onClick={deleteNote.bind(this, note.id)} className="" id='delete-button'>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                          <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
+                          <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
+                        </svg>   </button>
+                    </div>
+
+                    <div>
+
+                      <button onClick={
+                        () => {
+                          handleshareButtonClick(note);
+
+                        }
+
+
+                      } id='share-button'><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
+                          <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z" />
+                        </svg>  </button>
+                      <p>{result}</p>
+                    </div>
+
+
+                  </div>
+
+                  {
+                    note.category && (
+                      <div className='flex flex-row -mt-6 ' id='category-name'>
+                        <div >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16 " fill="currentColor" class="bi bi-files" viewBox="0 0 16 16" className=''>
+                            <path d="M13 0H6a2 2 0 0 0-2 2 2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2 2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 13V4a2 2 0 0 0-2-2H5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM3 4a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z" />
+                          </svg>
+
+                        </div>
+
+
+
+                        <div className='ml-2 font-bold '>
+                          <p className='text-sm mt-8  '>
+
+                            {note.category}
+                          </p>
+
+                        </div>
+                      </div>
+                    )
+                  }
+
+
+
+
+
+
+
+                  <p className="card-text mb-4   " >{note.createdAt.toDate().toLocaleString()}</p>
 
                   <div className="" key={note.id}>
                     <div className="card-body">
-                      <h5 className="card-title font-[DM sans] text-xl" contentEditable="true" suppressContentEditableWarning onInput={
+                      <h5 className="card-title font-[Merriweather] text-xl" contentEditable="true" suppressContentEditableWarning onInput={
                         (event) => {
                           const newTitle = event.target.innerText;
                           console.log(newTitle);
@@ -300,32 +386,7 @@ function FetchNotes({ note }) {
                         }
                       }>{note.title}</h5>
 
-                      <div className='flex flex-row '>
-                        <div>
-                          <button onClick={deleteNote.bind(this, note.id)} className="" id='delete-button'>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
-                              <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
-                            </svg>   </button>
-                        </div>
 
-                        <div>
-
-                          <button onClick={
-                            () => {
-                              handleshareButtonClick(note);
-
-                            }
-
-
-                          } id='share-button'><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-share" viewBox="0 0 16 16">
-                              <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z" />
-                            </svg>  </button>
-                          <p>{result}</p>
-                        </div>
-
-
-                      </div>
 
                       <div className="your-container-div">
                         <p className={`card-text font-[Nunito] text-xl ${isExpanded ? '' : 'truncate'}`} contentEditable="true" suppressContentEditableWarning
@@ -347,34 +408,34 @@ function FetchNotes({ note }) {
                         <button onClick={handleExpand} id='expand-button'>load more</button>
                       </div>
 
-                      
+
                       <div>
-    
-      {Array.isArray(note.files) &&
-  note.files.slice(0, expandedNotesForImages.includes(index) ? note.files.length : 1).map((file, imgIndex) => (
-    <img
-      key={imgIndex}
-      src={file}
-      alt={`Image ${imgIndex}`}
-      className='h-56 w-56 border rounded object-cover'
-      id='Zoom-image'
-    />
-  ))
-}
 
-{note.files.length > 1 && (
-  <button onClick={() => handleLoadMoreImages(index)} className='text-white'>
-    Load more images
-  </button>
-)}
+                        {Array.isArray(note.files) &&
+                          note.files.slice(0, expandedNotesForImages.includes(index) ? note.files.length : 1).map((file, imgIndex) => (
+                            <img
+                              key={imgIndex}
+                              src={file}
+                              alt={`Image ${imgIndex}`}
+                              className='h-56 w-56 border rounded object-cover'
+                              id='Zoom-image'
+                            />
+                          ))
+                        }
 
-{expandedNotesForImages.includes(index) && note.files.length > 1 && (
-  <button onClick={() => handleShowLessImages(index)} className='text-white'>
-    Show less images
-  </button>
-)}
+                        {note.files.length > 1 && (
+                          <button onClick={() => handleLoadMoreImages(index)} className='text-white'>
+                            Load more images
+                          </button>
+                        )}
 
-    </div>
+                        {expandedNotesForImages.includes(index) && note.files.length > 1 && (
+                          <button onClick={() => handleShowLessImages(index)} className='text-white'>
+                            Show less images
+                          </button>
+                        )}
+
+                      </div>
 
 
 

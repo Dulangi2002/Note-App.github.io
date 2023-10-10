@@ -12,13 +12,13 @@ import { getMessaging , getToken  } from "firebase/messaging";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyAVcFBetICuetwA9F4drSRfWxB9d5RYklc",
-  authDomain: "note-fc0fc.firebaseapp.com",
-  projectId: "note-fc0fc",
-  storageBucket: "note-fc0fc.appspot.com",
-  messagingSenderId: "278138305584",
-  appId: "1:278138305584:web:f5a8b50a6421d2edb181f5",
-  measurementId: "G-D5DTC7CZD3"
+  apiKey: "AIzaSyALmMp61wuM3VyDPRBwoBBR7D4qX3VLRQA",
+  authDomain: "note-app-c8641.firebaseapp.com",
+  projectId: "note-app-c8641",
+  storageBucket: "note-app-c8641.appspot.com",
+  messagingSenderId: "36261164495",
+  appId: "1:36261164495:web:b19bcb76695c7c5ce4ceba",
+  measurementId: "G-DQTY8FK2EW"
 };
 
 

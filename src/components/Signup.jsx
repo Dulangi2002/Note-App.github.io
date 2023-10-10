@@ -3,6 +3,7 @@ import { auth } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
+import { getFirestore , collection  , getDocs , where } from "firebase/firestore";
 
 
 function Signup() {
@@ -11,6 +12,8 @@ function Signup() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [validationerror , setValidationerror] = useState("");
+  const db = getFirestore();
+
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -30,7 +33,7 @@ function Signup() {
       return;
     }
     if (
-      db.collection("users").where("email", "==", email).get().then((querySnapshot) => {
+      getDocs(collection( db, "users"), where("email", "==", email)).then((querySnapshot) => {
         if (querySnapshot.size > 0) {
           setValidationerror("User already exists");
           return;

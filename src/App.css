@@ -146,6 +146,7 @@ body{
   padding-left: 20px;
   padding: 10px;
 
+
 }
 
 #share-button{
@@ -154,6 +155,11 @@ body{
   padding: 10px;
   color: black;
 
+}
+
+#category-name{
+  align-items: baseline;
+  
 }
 
 

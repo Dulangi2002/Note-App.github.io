@@ -103,23 +103,32 @@ function CreateCategory() {
 
 
     return (
-        <div>
-            <button onClick={ handleAddCategoryClick}> Add a category</button>
+        <div className="z-[1]  ">
+            <button onClick={ handleAddCategoryClick}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+</svg></button>
             {
                 showForm && (
 
-                    <form action="" onSubmit={handleCreateCategory}>
+                    <form action="" onSubmit={handleCreateCategory} className="form-control z-[1] bg-base-300 rounded-box w-62 text-md font-bold  p-3 -ml-20 ">
                     <div>
                         <label htmlFor="category_name">Category name</label>
-                        <input type="text" onChange={handleCategoryNameChange} value={category_name} />
+                        <input type="text" onChange={handleCategoryNameChange} value={category_name} className="border rounded border-black h-8 w-40   mb-2  " />
                          <p> { createError}</p>
     
                     </div>
     
                     <div>
-                        <button onClick={handleCreateCategory}>
-                            Add category
+                        <button onClick={handleCreateCategory} className="rounded bg-green-300 w-14 h-10 ">
+                            Add 
     
+                        </button>
+
+                        <button onClick={
+                        
+                        () => setShowForm(false)
+                        } className="ml-2 rounded bg-red-400  w-14 h-10">
+                            close
                         </button>
     
                     </div>
@@ -131,7 +140,7 @@ function CreateCategory() {
           
 
 
-            <div id="category_list">
+            <div id="category_list" className="bg-red-400">
                     {categories.map(category => (
                         <div key={category.id}>{category.category_name}</div>
                     ))}

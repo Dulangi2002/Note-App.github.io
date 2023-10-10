@@ -230,7 +230,7 @@ function FetchNotes({ note }) {
 
   return (
 
-    <div >
+    <div className='bg-white' >
 
 
 
@@ -242,7 +242,7 @@ function FetchNotes({ note }) {
       ) : (
 
 
-        <div  >
+        <div className='bg-white' >
 
 
 

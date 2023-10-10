@@ -52,35 +52,36 @@ function SignIn() {
             </div>
             <div className='w-96 mr-0 ml-0 -mt-96 lg:mt-32'  >
             <h1 className=" font-bold underline m-4 text-center text-3xl text-white ">Sign In</h1>
-            <form action="" className='  ml-2 mr-2 pt-4 rounded pb-2' id='signin-form'>
+            <form action="" className='  ml-2 mr-4 pt-4 rounded pb-2' id='signin-form'>
                 <div className='flex flex-col m-4 '>
                     <div>
-                        <label htmlFor="email" className="text-sm font-bold">Email</label>
+                        <label htmlFor="email" className="text-sm font-bold ">Email</label>
                     </div>
 
                     <div>
-                        <input className="w-80 rounded  " type="text" name="email" id="" onChange={(e) => setEmail(e.target.value)} />
+                        <input className="w-80 rounded pl-2  " type="text" name="email" id="" onChange={(e) => setEmail(e.target.value)} />
                     </div>
 
                 </div>
 
-                <div className='flex flex-col m-4 font-bold'>
+                <div className='flex flex-col mt-4 ml-4 mr-4  font-bold'>
 
                     <div>
                         <label htmlFor="password" className='text-sm font-bold '>Password</label>
                     </div>
 
                     <div>
-                        <input className=" w-80 rounded " type="text" name="password" id="" onChange={(e) => setPassword(e.target.value)} />
+                        <input className=" w-80 rounded pl-2" type="password" name="password" id="" onChange={(e) => setPassword(e.target.value)} />
                     </div>
 
                 </div>
 
                 <p>{validationerror}</p>
 
-                <div class="flex items-center justify-between">
-                    <button className="bg-red-300 w-80  m-4 h-10  text-center pt-2 rounded font-bold " onClick={handleSignIn}>Signin</button>
-                    <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
+
+                <div class="flex flex-col items-center justify-between">
+                    <button className="bg-red-300 w-80  mt-4 ml-4 mr-4  h-10  text-center pt-2 rounded font-bold " onClick={handleSignIn}>Signin</button>
+                    <a class="inline-block align-baseline font-bold text-sm text-black hover:text-black mb-2 mt-2" href="#">
                         Forgot Password?
                     </a>
                 </div>

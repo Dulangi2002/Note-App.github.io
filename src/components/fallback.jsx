@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAuth } from '../AuthContext';
 import { useNavigate } from 'react-router-dom';
+import pic from '../assets/splash3.jpg';
 
 
 
@@ -36,7 +37,7 @@ function Fallback (){
           </button>
         </div>
         <div>
-          <img src="src/assets/splash3.jpg" alt="" id='' className='w-full lg:h-full h-96'/>
+          <img src={pic} alt="" id='' className='w-full lg:h-full h-96'/>
         </div>
       </div>
 

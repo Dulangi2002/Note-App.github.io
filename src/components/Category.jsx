@@ -110,16 +110,16 @@ function CreateCategory() {
             {
                 showForm && (
 
-                    <form action="" onSubmit={handleCreateCategory} className="form-control z-[1] bg-base-300 rounded-box w-62 text-md font-bold  p-3 -ml-20 ">
+                    <form action="" onSubmit={handleCreateCategory} className="form-control z-[1] bg-base-300 rounded-box w-80 text-md font-bold  p-3 -ml-28 shadow ">
                     <div>
-                        <label htmlFor="category_name">Category name</label>
+                        <label htmlFor="category_name" className="text-sm mr-2 ">Category </label>
                         <input type="text" onChange={handleCategoryNameChange} value={category_name} className="border rounded border-black h-8 w-40   mb-2  " />
                          <p> { createError}</p>
     
                     </div>
     
                     <div>
-                        <button onClick={handleCreateCategory} className="rounded bg-green-300 w-14 h-10 ">
+                        <button onClick={handleCreateCategory} className="rounded bg-green-300 w-16 h-10 ">
                             Add 
     
                         </button>
@@ -127,7 +127,7 @@ function CreateCategory() {
                         <button onClick={
                         
                         () => setShowForm(false)
-                        } className="ml-2 rounded bg-red-400  w-14 h-10">
+                        } className="ml-2 rounded bg-red-400  w-16 h-10">
                             close
                         </button>
     

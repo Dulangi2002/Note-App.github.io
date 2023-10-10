@@ -48,7 +48,7 @@ function App() {
     }, []);
 
     if(!onlinestatus){
-        return <fallback />
+        return <Fallback />
     }
 
    useEffect(() => {

@@ -91,11 +91,10 @@ function EditEmailForm(props) {
     }
 
     return (
-        <div>
-            <h1>Edit Email</h1>
+        <div className="bg-white  -ml-44  shadow  p-4 rounded  ">
 
-            <form onSubmit={handleEditEmail}>
-                <label className="text-red-700">
+            <form onSubmit={handleEditEmail} className="">
+                <label className="text-red-700 ">
                     Email:
                     <input
 
@@ -103,9 +102,10 @@ function EditEmailForm(props) {
                         name="email"
                         defaultValue={props.email}
                         onChange={(e) => setEmail(e.target.value)}
+                        className="ml-2 "
                     />
                 </label>
-                <button type="submit" className="bg-red">Submit</button>
+                <button type="submit" className="bg-gray-200  -ml-4  p-2  rounded ">Submit</button>
             </form>
         </div>
 

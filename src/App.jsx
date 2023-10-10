@@ -1,6 +1,6 @@
 
 import './App.css'
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Signup from './components/Signup.jsx';
 import Signin from './components/Signin.jsx';
@@ -15,13 +15,41 @@ import NavigationBar from './components/navigationBar.jsx';
 import { useAuth } from './AuthContext.jsx';
 import ProfilePhoto from './components/profilePhoto.jsx';
 import { useNavigate } from 'react-router-dom';
+import Fallback from './components/fallback.jsx';
 
-
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/dist/sw.js') // Adjust the path accordingly
+      .then((registration) => {
+          console.log('Service Worker registered with scope:', registration.scope);
+      })
+      .catch((error) => {
+          console.error('Service Worker registration failed:', error);
+      });
+}
 function App() {
 
   const { user, logout, signup, signin } = useAuth();
   const navigate = useNavigate();
+  const [onlinestatus, setOnlineStatus] = useState(navigator.onLine);
+    useEffect(() => {
+        // Event listener to update online status
+        const handleOnlineStatus = () => {
+            setOnlineStatus(navigator.onLine);
+        };
 
+        window.addEventListener('online', handleOnlineStatus);
+        window.addEventListener('offline', handleOnlineStatus);
+
+        // Cleanup event listeners on component unmount
+        return () => {
+            window.removeEventListener('online', handleOnlineStatus);
+            window.removeEventListener('offline', handleOnlineStatus);
+        };
+    }, []);
+
+    if(!onlinestatus){
+        return <fallback />
+    }
 
    useEffect(() => {
      if (user == null)
@@ -49,7 +77,7 @@ function App() {
             <Route path="/Note-App/ViewProfile" element={<ViewProfile />} />
             <Route path="/Note-App/CreateTasks" element={<CreateTasks />} />
             <Route path="/Note-App/profilePhoto" element={<ProfilePhoto />} />
-
+            <Route path="/Note-App/fallback" element={<Fallback />} />
           </Routes>
 
 

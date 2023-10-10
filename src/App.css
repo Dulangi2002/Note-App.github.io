@@ -416,7 +416,7 @@ body{
 
 
 #sign-up{
-  background: url('/src/assets/signup.jpg');
+  /* background: url('/src/assets/signup.jpg'); */
   padding-bottom: 100px;
   padding-top: 20px;
   background-size: cover;
@@ -466,6 +466,11 @@ body{
 
 
 
+#main-background{
+  background-color: #242253;
+  
+}
+
 
 #image-container{
   background: url('/src/assets/profilebackground.jpg');
@@ -481,4 +486,45 @@ body{
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+#main-image{
+  width: 300px; 
+  margin-left: 50px;
+}
+
+#splash-image{
+  background: url('/src/assets/splash3.jpg');
+  background-size: cover;
+  height: 100vh;
+ width: 50vw;
+ object-fit: cover;
+
+}
+
+#splash-section{
+  background-color: #ffffff;
+  height: 50vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-right: 800px;
+  
+  color: #040303;
+  
+
+  text-align: center;
+
+}
+
+#splash-button{
+  background: #dca7ff;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: #ffc0c0 0px 0px 10px;
+  justify-content: center;
+  margin-top: 10px;
+  
 }

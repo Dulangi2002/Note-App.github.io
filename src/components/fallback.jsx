@@ -1,8 +1,10 @@
-import React from 'react'
-import { useAuth } from '../AuthContext'
-import { useNavigate } from 'react-router-dom'
+import React from 'react';
+import { useAuth } from '../AuthContext';
+import { useNavigate } from 'react-router-dom';
 
-function SplashPage(){
+
+
+function Fallback (){
     const { user , login } = useAuth();
     const navigate = useNavigate(); 
 
@@ -52,4 +54,4 @@ function SplashPage(){
     )
 }
 
-export default SplashPage;
+export default Fallback; 

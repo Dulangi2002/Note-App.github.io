@@ -3,7 +3,7 @@ import { auth } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
-import { getFirestore , collection  , getDocs , where } from "firebase/firestore";
+import { getFirestore, collection, getDocs, where } from "firebase/firestore";
 
 
 function Signup() {
@@ -11,7 +11,7 @@ function Signup() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [validationerror , setValidationerror] = useState("");
+  const [validationerror, setValidationerror] = useState("");
   const db = getFirestore();
 
 
@@ -33,7 +33,7 @@ function Signup() {
       return;
     }
     if (
-      getDocs(collection( db, "users"), where("email", "==", email)).then((querySnapshot) => {
+      getDocs(collection(db, "users"), where("email", "==", email)).then((querySnapshot) => {
         if (querySnapshot.size > 0) {
           setValidationerror("User already exists");
           return;
@@ -61,19 +61,43 @@ function Signup() {
 
 
 
-    <div>
-      <h1 className=" font-bold underline">Signup</h1>
-      <form action="">
-      <p>{validationerror }</p>
-        <label htmlFor="email">Email</label>
-        <input type="text" name="email" id="" onChange={(e) => setEmail(e.target.value)} />
+    <div className='' id='sign-up'>
+      <h1 className=" font-bold underline m-4 text-center text-3xl text-white ">Signup</h1>
+      <form action="" className='mt-32  ml-2 mr-2 pt-4 rounded pb-2 ' id='signup-form'>
+
+        <div className='flex flex-col m-4 '>
+          <div>
+            <label htmlFor="email" className='text-sm font-bold'>Email</label>
+          </div>
+
+          <div>
+            <input type="text" name="email" id="" onChange={(e) => setEmail(e.target.value)} className=' w-80 rounded ' />
+
+          </div>
+
+        </div>
+
+        <div  className='flex flex-col m-4 font-bold'>
+          <div>
+            <label htmlFor="password">Password</label>
+
+          </div>
+
+          <div> 
+            <input type="text" name="password" id="" onChange={(e) => setPassword(e.target.value)} className=' w-80 rounded  ' />
+
+          </div>
 
 
+        </div>
+        <p>{validationerror}</p>
 
-        <label htmlFor="password">Password</label>
-        <input type="text" name="password" id="" onChange={(e) => setPassword(e.target.value)} />
+        <div className='bg-red-300 w-80  m-4 h-10  text-center pt-2 rounded font-bold '>
 
         <button onClick={handleSignup}>Signup</button>
+
+        </div>
+
       </form>
     </div>
 

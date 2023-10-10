@@ -230,7 +230,7 @@ function ViewProfile({ userEmail, firestore }) {
                 </div>
 
                 <div >
-                    <div className='bg-red-500  h-14 m-2 text-center text-xl text-white pt-2  '>
+                    <div className='bg-red-600  h-14 m-2 text-center text-xl text-white pt-2  '>
 
 
                         <button onClick={deleteAccount}  >
@@ -238,7 +238,7 @@ function ViewProfile({ userEmail, firestore }) {
                         </button>
                     </div>
 
-                    <div className='bg-red-500  h-14 m-2 text-center text-xl text-white pt-2 '>
+                    <div className='bg-red-600  h-14 m-2 text-center text-xl text-white pt-2 '>
 
                         <button onClick={deleteNotes}>
                             Delete My Notes
@@ -246,7 +246,7 @@ function ViewProfile({ userEmail, firestore }) {
                     </div>
 
 
-                    <div className='bg-red-500  h-14 m-2 text-center text-xl text-white pt-2 '>
+                    <div className='bg-red-600  h-14 m-2 text-center text-xl text-white pt-2 '>
                         <button onClick={signOutUser}>
                             Sign Out
                         </button>

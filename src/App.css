@@ -415,6 +415,29 @@ body{
 }
 
 
+#sign-up{
+  background: url('/src/assets/signup.jpg');
+  padding-bottom: 100px;
+  padding-top: 20px;
+  background-size: cover;
+
+}
+
+#signup-form{
+  background-color: #d4d4d4;
+  opacity: 0.9;
+  color: #000000;
+  box-shadow: #ffc0c0 0px 0px 10px;
+
+}
+
+#signup-form input{
+  height: 50px;
+
+
+
+}
+
 #image-container{
   background: url('/src/assets/profilebackground.jpg');
 }

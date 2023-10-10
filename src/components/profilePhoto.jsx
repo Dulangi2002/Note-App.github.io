@@ -56,25 +56,20 @@ function ProfilePhoto() {
 
     const saveToFirebaseStorage = async () => {
 
-         const currentUser = auth.currentUser;
      
-         const userEmail = currentUser.email;
-      
         try {
         const user = auth.currentUser
-        const userEmail = currentUser.email;
-
+       
         if( user) {
-         const userEmail = user.email;
+          const userEmail = user.email;
           const uniqueFilename = `${userEmail}_${new Date().getTime()}`;
           const storageRef = ref(storage, `users/${userEmail}/profilePhoto/${uniqueFilename}`);
           const metadata = {
-            contentType: 'image/png', // Set the appropriate content type for your image
+            contentType: 'image/png', 
           };
       
           const uploadTaskSnapshot = await uploadString(storageRef, capturedImage, 'data_url', metadata);
       
-          // Get download URL
           const downloadURL = await getDownloadURL(uploadTaskSnapshot.ref);
       
           // Update user profile data in Firestore
@@ -85,9 +80,7 @@ function ProfilePhoto() {
       
           await setDoc(userDocRef, userProfileData, { merge: true });
           console.log("Profile photo updated successfully!");
-      
-          // Navigate to the view profile page
-          navigate("/Note-App/ViewProfile");
+                navigate("/Note-App/ViewProfile");
         } else{
             console.error("User not logged in.");
 
@@ -142,19 +135,17 @@ function ProfilePhoto() {
             context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
             const dataUrl = canvas.toDataURL("image/png");
 
-            // Stop the video stream
             const stream = videoElement.srcObject;
             const tracks = stream.getTracks();
             tracks.forEach((track) => track.stop());
 
-            // Set the captured image to the state
             setCapturedImage(dataUrl);
         }
     };
 
     useEffect(() => {
         initCamera();
-    }, []); // Initialize camera when component mounts
+    }, []); 
 
     return (
         <div>

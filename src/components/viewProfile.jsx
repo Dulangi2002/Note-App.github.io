@@ -88,10 +88,7 @@ function ViewProfile({ userEmail, firestore }) {
 
 
 
-    // const fetchEmailEditForm = () => {
-    //     return <EditEmailForm email={currentUser?.email} />
-    // }
-
+  
 
     const navigateToProfilePhotoPage = () => {
         navigate('/Note-App/profilePhoto');
@@ -100,55 +97,6 @@ function ViewProfile({ userEmail, firestore }) {
 
 
 
-
-    // const saveProfilePhoto = async (profilePicDataUrl) => {
-    //     const storage = getStorage();
-    //     const auth = getAuth();
-    //     const user = auth.currentUser;
-    //     const userEmail = user.email;
-
-
-
-    //     try {
-
-    //         if (user) {
-    //             const storageRef = ref(storage, `users/${userEmail}/profilePic`);
-    //             getDownloadURL(ref(storage, `users/${userEmail}/profilePic`));
-    //             const uploadTask = uploadBytesResumable(storageRef, profilePicDataUrl);
-    //             uploadTask.on('state_changed',
-    //                 (snapshot) => {
-    //                     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-    //                     console.log('Upload is ' + progress + '% done');
-    //                 },
-    //                 (error) => {
-    //                     console.log(error);
-    //                 },
-    //                 async () => {
-    //                     try {
-    //                         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-    //                         console.log('File available at', downloadURL);
-    //                         const db = getFirestore();
-    //                         const userDocRef = collection(db, "users", userEmail, "profilePic");
-    //                         const userData = {
-    //                             profilePic: downloadURL
-    //                         }
-    //                         await addDoc(userDocRef, userData);
-    //                         console.log("Profile picture saved");
-
-    //                     } catch (error) {
-    //                         console.log(error);
-    //                     }
-    //                 }
-    //             );
-    //         }
-
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-
-
-
-    // };
 
 
     useEffect(() => {
@@ -247,7 +195,6 @@ function ViewProfile({ userEmail, firestore }) {
 
                 </button>
                 {isEditEmailFormVisible && <EditEmailForm email={currentUser?.email} />}
-                {/* <EditEmailForm email={currentUser?.email} />                     */}
                 <img src={currentUser?.photoURL} alt="user profile" />
                 <img src="" alt="" />
 
@@ -255,9 +202,6 @@ function ViewProfile({ userEmail, firestore }) {
                     Delete account
                 </button>
 
-                {/* <button onClick={signOutUser}>
-                    Sign out
-                </button> */}
 
                 <button onClick={deleteNotes}>
                     Delete Notes

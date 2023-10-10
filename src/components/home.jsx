@@ -1,7 +1,7 @@
-import { getAuth } from "firebase/auth";
-import React from "react";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import React, { useEffect } from "react";
 import { useState } from "react";
-import { getFirestore, collection, addDoc, doc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, doc , getDocs } from "firebase/firestore";
 import { uploadBytesResumable, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../firebase";
 import { useNavigate } from "react-router-dom";
@@ -12,11 +12,13 @@ function AddNote() {
 
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
+    const [category, setCategory] = useState('');
     const [file, setFile] = useState('');
     const [files, setFiles] = useState([]); // [file1 , file2 , file3]
     const [colorLabel, setColorLabel] = useState('');
     const [filesArray, setFilesArray] = useState([]);
     const [fileType, setFileType] = useState('');
+    const [ categories , setCategories ] = useState([]);
 
     const navigate = useNavigate();
 
@@ -32,7 +34,41 @@ function AddNote() {
         setFilesArray(filesArray);
         console.log(filesArray);
 
+
     }
+
+
+    useEffect(() => {
+        const auth = getAuth();
+        const user = auth.currentUser;
+        const userEmail = user.email;
+    
+        onAuthStateChanged(auth, async (user) => {
+            try {
+                if (user) {
+                    // Fetch categories
+                    const fetchCategories = async () => {
+                        try {
+                            const querySnapshot = await getDocs(collection(db, "users", userEmail, "categories"));
+                            const categoriesData = querySnapshot.docs.map((doc) => ({
+                                id: doc.id,
+                                ...doc.data()
+                            }));
+                            setCategories(categoriesData);
+                        } catch (error) {
+                            console.error("Error fetching categories:", error);
+                           
+                        }
+                    };
+    
+                    fetchCategories();
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        });
+    }, []);
+    
 
     const handleAddNote = async (e) => {
         e.preventDefault();
@@ -60,6 +96,7 @@ function AddNote() {
                         const note = {
                             title,
                             content,
+                            category,
                             files: fileDownloadURLs,
                             colorLabel,
                             createdAt: new Date()
@@ -91,38 +128,55 @@ function AddNote() {
 
     }
 
+
+
+
     return (
         <>
 
-          
-          <div id="form-background">
-            <div className="  border-2 mt-8 justify-center sm:m-8 lg:ml-96 lg:mr-96 p-4 " id="form-div">
-                <h1 className="text-center font-[DM sans] font-bold text-2xl pt-4" >Add a Note</h1>
-                <form className="  " id="form-note">
-                    <div className="form-group">
-                        <label htmlFor="title" className="font-[Nunito]">Title</label>
-                        <input type="text" className="form-control" id="title" aria-describedby="emailHelp" onChange={(e) => setTitle(e.target.value)} />
-                    </div>
-{/* input was turn into teztarea for the content */}
-                    <div className="form-group">
-                        <label htmlFor="Content" className="font-[Nunito]">Content</label>
-                        <textarea type="text" className="form-control" id="desc"  onChange={(e) => setContent(e.target.value)} />
-                    </div>
 
-                    <div className="form-group" >
-                        <label htmlFor="file" className="font-[Nunito]">File</label>
-                        <input type="file" className="form-control" id="file"  onChange={handleFileChange} multiple />
-                    </div>
+            <div id="form-background">
+                <div className="  border-2 mt-8 justify-center sm:m-8 lg:ml-96 lg:mr-96 p-4 " id="form-div">
+                    <h1 className="text-center font-[DM sans] font-bold text-2xl pt-4" >Add a Note</h1>
+                    <form className="  " id="form-note">
+                        <div className="form-group">
+                            <label htmlFor="title" className="font-[Nunito]">Title</label>
+                            <input type="text" className="form-control" id="title" aria-describedby="emailHelp" onChange={(e) => setTitle(e.target.value)} />
+                        </div>
+                        {/* input was turn into teztarea for the content */}
+                        <div className="form-group">
+                            <label htmlFor="Content" className="font-[Nunito]">Content</label>
+                            <textarea type="text" className="form-control" id="desc" onChange={(e) => setContent(e.target.value)} />
+                        </div>
 
-                    <div className="form-group">
-                        <label htmlFor="colorLabel"className="font-[Nunito]">Color </label>
-                        <SketchPicker color={colorLabel} onChangeComplete={(color) => setColorLabel(color.hex)} />
-                    </div>
+                        <div>
+                            <select name="" id="" onChange={(e) => setCategory(e.target.value)} >
+                                <option value="all">All categories</option>
+                                {
+                                    categories.map(category => (
+                                        <option key={category.id} value={category.category_name}>{category.category_name}</option>
+                                    ))
+                                }
+                            </select>
+                        </div>
 
 
-                    <button type="submit" id="note-create-submit-button" onClick={handleAddNote} className="justify-center mt-12 "> Add Note</button>
-                </form>
-            </div>
+
+                        <div className="form-group" >
+                            <label htmlFor="file" className="font-[Nunito]">File</label>
+                            <input type="file" className="form-control" id="file" onChange={handleFileChange} multiple />
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="colorLabel" className="font-[Nunito]">Color </label>
+                            <SketchPicker color={colorLabel} onChangeComplete={(color) => setColorLabel(color.hex)} />
+                        </div>
+
+
+
+                        <button type="submit" id="note-create-submit-button" onClick={handleAddNote} className="justify-center mt-12 "> Add Note</button>
+                    </form>
+                </div>
             </div>
         </>
     )

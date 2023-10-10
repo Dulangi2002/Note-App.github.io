@@ -5,7 +5,6 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import Signup from './components/Signup.jsx';
 import Signin from './components/Signin.jsx';
 import SplashPage from './components/splashPage';
-import CreateNote from './components/createNote';
 import AddAudioNotes from './components/audioNotes.jsx';
 import FetchNotes from './components/fetchNotes';
 import AddNote from './components/home.jsx';
@@ -44,7 +43,6 @@ function App() {
 
             <Route path="/Note-App/ViewProfile" element={<ViewProfile />} />
             <Route path="/Note-App/AddNote" element={<AddNote />} />
-            <Route path="/Note-App/CreateNote" element={<CreateNote />} />
             <Route path="/Note-App/" element={<FetchNotes />} />
             <Route path="/Note-App/addAudioNote" element={<AddAudioNotes />} />
             <Route path="/Note-App/GetAudioNotes" element={<GetAudioNotes />} />

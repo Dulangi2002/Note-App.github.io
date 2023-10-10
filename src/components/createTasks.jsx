@@ -14,6 +14,8 @@ function CreateTasks() {
     const [editingStates, setEditingStates] = useState({});
     const [priorityColor, setPriorityColor] = useState('');
     const [priorityFilter, setPriorityFilter] = useState('all');
+    const [showForm, setshowForm] = useState(false);
+
 
 
 
@@ -30,6 +32,10 @@ function CreateTasks() {
         setDate(newDate);
     }
 
+
+    const handleClickAddTask = (event) => {
+        setshowForm(true);
+    }
 
 
 
@@ -244,32 +250,55 @@ function CreateTasks() {
 
 
 
-            <form className="form-control  flex flex-row gap-4" id="task-form">
-                <div>
-                    <label htmlFor="task_name">Task name</label>
-                    <input type="text" onChange={handleTaskNameChange} value={task_name} />
-                </div>
 
-                <div>
-                    <label htmlFor="task_due_date"> Due date</label>
-                    <input type="date" onChange={handleDateChange} value={date} />
-                </div>
-                <div>
-                    <label htmlFor="priority">Priority:</label>
-                    <select id="priority" value={priority} onChange={
-                        handlePriorityChange
-                    }>
-                        <option value="low">Low</option>
-                        <option value="medium">Medium</option>
-                        <option value="high">High</option>
-                    </select>
-                </div>
+            <button onClick={handleClickAddTask} className="flex flex-row  bg-green-300  w-56 h-12 rounded justify-center m-4 pt-3" id="open-create-task-form">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
+                </svg>
+               Add task
+            </button>
 
-                <button onClick={handleAddTask} id="add-task-button">
-                    <span>Add</span>
-                </button>
 
-            </form>
+
+
+            {
+                showForm && (
+                    <form className="form-control  flex flex-col gap-4 z-[1] shadow p-4  ">
+                        <div>
+                            <label htmlFor="task_name">Task name</label>
+                            <input type="text" onChange={handleTaskNameChange} value={task_name} placeholder="Enter task..." className="border-2 border-black ml-2 p-2 rounded w-60  "/>
+                        </div>
+
+                        <div>
+                            <label htmlFor="task_due_date"> Due date</label>
+                            <input type="date" onChange={handleDateChange} value={date} className="border-2  border-black ml-4 p-2 rounded  w-60"/>
+                        </div>
+                        <div>
+                            <label htmlFor="priority">Priority:</label>
+                            <select id="priority" value={priority} onChange={
+                                handlePriorityChange
+                            }>
+                                <option value="low">Low</option>
+                                <option value="medium">Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+
+                        <button onClick={handleAddTask} id="" className="bg-green-200 rounded h-8 font-[Nunito] ">
+                            <span>Add</span>
+                        </button>
+                        <button onClick={
+                            () => setshowForm(false)
+                        } className="bg-gray-300 h-8 rounded font-[Nunito]">
+                            close
+                        </button>
+
+                    </form>
+
+                )
+            }
+
 
             <div>
 

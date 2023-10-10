@@ -4,6 +4,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import { getFirestore, collection, getDocs, where } from "firebase/firestore";
+import photo from '../assets/signup.jpg';
 
 
 function SignIn() {
@@ -47,7 +48,7 @@ function SignIn() {
     return (
         <div className=' pb-8 lg:grid grid-cols-2 ' id='main-background' >
             <div>
-                <img src="/src/assets/signup.jpg" alt="" id='main-image' />
+                <img src={photo} alt="" id='main-image' />
             </div>
             <div className='w-96 mr-0 ml-0 -mt-96 lg:mt-32'  >
             <h1 className=" font-bold underline m-4 text-center text-3xl text-white ">Sign In</h1>

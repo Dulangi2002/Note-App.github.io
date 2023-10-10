@@ -4,6 +4,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import { getFirestore, collection, getDocs, where } from "firebase/firestore";
+import photo from '../assets/signup.jpg';
 
 
 function Signup() {
@@ -62,11 +63,11 @@ function Signup() {
 <div className=' lg:pb-20 pb-8 lg:grid grid-cols-2 ' id='main-background'>
 
   <div>
-  <img src="/src/assets/signup.jpg" alt="" id='main-image' />
+  <img src={photo} alt="" id='main-image' />
 </div>
 
 <div className='w-96 mr-0 ml-0 m-auto' id='sign-up'>
-      <h1 className="font-bold underline  text-center text-3xl text-white -mt-80 mb-4 lg:-mt-0 ">Signup</h1>
+      <h1 className="font-bold underline  text-center text-3xl text-white -mt-80 mb-4 lg:-mt-0   ">Signup</h1>
       <form action="" className='  ml-2 mr-2 pt-4 rounded pb-2 ' id='signup-form'>
 
         <div className='flex flex-col m-4 '>

@@ -60,12 +60,12 @@ function EditTask(props) {
 
 
     return (
-        <div className="mt-2 mb-20  " id="edit-task">
+        <div className="  w-60   justify-center z-[1] " id="">
 
 
-            <form onSubmit={handleEditTask} className="form-control mt-2  gap-4 border-2 " id="edit-task-form">
+            <form onSubmit={handleEditTask} className="form-control mt-2 p-4 -ml-16 shadow   border-2  flex flex-col " >
 
-                <label className="font-[DM-sans] text-md">
+                <label className="font-[Nunito] text-md">
                     Task Name:
                     <input
 
@@ -73,12 +73,13 @@ function EditTask(props) {
                         name="task_name"
                         value={task_name}
                         onChange={(e) => setTaskName(e.target.value)}
+                        className="border rounded border-black h-8 w-40   mb-2 p-3 "
                     />
                 </label>
 
 
 
-                <label className="font-[DM-sans] text-md">
+                <label className="font-[Nunito] text-md">
                     Date:
                     <input
 
@@ -86,10 +87,11 @@ function EditTask(props) {
                         name="date"
                         value={date}
                         onChange={(e) => setDate(e.target.value)}
+                        className="border rounded border-black h-8 w-40   mb-2 p-3 "
                     />
                 </label>
 
-                <label className="font-[DM-sans] text-md">
+                <label className="font-[Nunito] text-md0 ">
                     Priority:
                     <select id="priority" value={priority}   onChange={(e) => setPriority(e.target.value)}>
                         <option value="low">Low</option>
@@ -100,7 +102,7 @@ function EditTask(props) {
                 </label>
 
                 <div>
-                    <button type="submit" id="update-task-button">Submit</button>
+                    <button type="submit" className="font-[Nunito] bg-green-300 w-28 mt-2 rounded text-sm p-2 " >Update</button>
 
                 </div>
 

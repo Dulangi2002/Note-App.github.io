@@ -285,13 +285,13 @@ function CreateTasks() {
                             </select>
                         </div>
 
-                        <button onClick={handleAddTask} id="" className="bg-green-200 rounded h-8 font-[Nunito] ">
+                        <button onClick={handleAddTask} id="" className="bg-gray-200 rounded h-8 font-[Nunito] ">
                             <span>Add</span>
                         </button>
                         <button onClick={
                             () => setshowForm(false)
-                        } className="bg-gray-300 h-8 rounded font-[Nunito]">
-                            close
+                        } className="bg-gray-200 h-8 rounded font-[Nunito]">
+                           Cancel
                         </button>
 
                     </form>

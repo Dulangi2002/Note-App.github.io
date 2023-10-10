@@ -1,6 +1,7 @@
 import React from 'react'
 import { useAuth } from '../AuthContext'
 import { useNavigate } from 'react-router-dom'
+import pic from '../assets/splash3.jpg'
 
 function SplashPage(){
     const { user , login } = useAuth();
@@ -34,9 +35,7 @@ function SplashPage(){
           </button>
         </div>
         <div>
-          <img src="
-          /src/assets/splash3.jpg
-          " alt="" id='' className='w-full h-full '/>
+          <img src={pic} alt="" id='' className='w-full h-full '/>
         </div>
       </div>
 

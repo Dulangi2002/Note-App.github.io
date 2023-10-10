@@ -249,14 +249,14 @@ function FetchNotes({ note }) {
 
           <div className=''>
             <div className=' font-bold  '>
-              <h1 id='notes-heading' className='text-5xl ml-4 '> Your Notes</h1>
+              <h1 id='notes-heading' className='text-5xl ml-4 lg:ml-20'> Your Notes</h1>
             </div>
-            <div className='flex  mt-8 gap-4 ml-2 sm:rounded-lg '>
+            <div className='flex  mt-8 gap-4 lg:ml-20 ml-2  sm:rounded-lg '>
               <div >
-                <button onClick={goToTasks} id='submenu-buttons' className='text-white '> View your tasks</button>
+                <button onClick={goToTasks} id='submenu-buttons' className=' '> View Tasks</button>
               </div>
 
-              <div> <button onClick={getCreateNoteForm} id='submenu-buttons'>create new note</button></div>
+              <div> <button onClick={getCreateNoteForm} id='submenu-buttons'>Create Note</button></div>
             </div>
           </div>
 
@@ -290,19 +290,8 @@ function FetchNotes({ note }) {
             </div>
 
 
-
           </div>
-
-
-
-
-
           <div className='grid grid-cols-1 lg:grid-cols-4 lg:ml-20 '>
-
-
-
-
-
 
 
             {

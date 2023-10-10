@@ -64,21 +64,26 @@ body{
 
 
 #submenu-buttons{
-  background-color: #f9969a;
+  background-color: #6E7582;
   padding: 15px;
   border-radius: 25px;
   box-shadow: #ffc0c0 0px 0px 10px;
+  color: #ffc0c0;
+  font-weight: 700;
+
+
   
 
 }
 
 #submenu-buttons:hover{
-  background-color: #efeded;
+  background-color: #ffffff;
   padding: 15px;
   border-radius: 25px;
   box-shadow: #ffc0c0 0px 0px 10px;
   transform: rotate3d(1, 1, 1, 10deg);
-  border: black 1px solid;
+  color: #6E7582;
+
   
 
 }
@@ -96,6 +101,7 @@ body{
 #notes-heading{
   -webkit-text-stroke: #ff7676 1px;
   margin-top: 30px;
+  color: #6E7582;
   
 }
 
@@ -266,12 +272,22 @@ body{
 }
 
 #edit-task-button{
-  margin-left: 30px;
-  width: 60px;
-  padding-left: 15px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  margin-bottom: 4px;
+
+  margin-right: 30px;
+  margin-top: -20px;
+  width: 50px;
+  padding-left: 100px;
+
+
+
+}
+
+#delete-task-button{
+  margin-right: 30px;
+  margin-top: 20px;
+  width: 50px;
+  padding-left: 100px;
+  margin-bottom: 10%;
 
 }
 
@@ -293,15 +309,7 @@ body{
 }
 
 
-#delete-task-button{
-  
-  width: 60px;
-  padding-left: 15px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  margin-bottom: 4px;
 
-}
 
 
 #single-task{

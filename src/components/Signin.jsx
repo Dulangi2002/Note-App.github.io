@@ -59,7 +59,7 @@ function SignIn() {
                     </div>
 
                     <div>
-                        <input className="w-80 rounded pl-2  " type="text" name="email" id="" onChange={(e) => setEmail(e.target.value)} />
+                        <input className="w-64 rounded pl-2  " type="text" name="email" id="" onChange={(e) => setEmail(e.target.value)} />
                     </div>
 
                 </div>
@@ -71,7 +71,7 @@ function SignIn() {
                     </div>
 
                     <div>
-                        <input className=" w-80 rounded pl-2" type="password" name="password" id="" onChange={(e) => setPassword(e.target.value)} />
+                        <input className=" w-64 rounded pl-2" type="password" name="password" id="" onChange={(e) => setPassword(e.target.value)} />
                     </div>
 
                 </div>
@@ -80,7 +80,7 @@ function SignIn() {
 
 
                 <div class="flex flex-col items-center justify-between">
-                    <button className="bg-red-300 w-80  mt-4 ml-4 mr-4  h-10  text-center  rounded font-bold " onClick={handleSignIn}>Signin</button>
+                    <button className="bg-red-300 w-64  mt-4 ml-4 mr-4  h-10  text-center  rounded font-bold " onClick={handleSignIn}>Signin</button>
                     <a class="inline-block align-baseline font-bold text-sm text-black hover:text-black mb-2 mt-2" href="#">
                         Forgot Password?
                     </a>

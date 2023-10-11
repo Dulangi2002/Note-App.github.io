@@ -20,7 +20,7 @@ function Fallback (){
       <div className='grid lg:grid-cols-2  grid-cols-1'>
        
         <div  className='mt-24  lg:ml-44 '>
-            <h1>We are offline at the moment !</h1>
+            <h1 className='w-80 m-4 font[Nunito] text-lg text-center '>You are offline at the moment !</h1>
 
 
 

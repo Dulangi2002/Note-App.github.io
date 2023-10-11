@@ -38,6 +38,18 @@ function CreateTasks() {
     }
 
 
+    const filterTasksDueToday = () => {
+
+        const today = new Date();
+        const todayDate = today.getDate().toString();
+        return tasks.filter((task) => { 
+            const taskDate = task.date.split("-")[2];
+            return taskDate === todayDate;
+        });
+    };
+
+    const DueToday = filterTasksDueToday(tasks);
+
 
 
 

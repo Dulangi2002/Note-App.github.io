@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 import { VitePWA } from "vite-plugin-pwa"
 
 
-const manifestForPlugin ={
+const manifestForPlugin = {
 
   name: 'Note-App',
   short_name: 'Note-App',
@@ -54,6 +54,68 @@ export default defineConfig({
   base: './',
   plugins: [react(), VitePWA({
     manifest: manifestForPlugin,
+
+    workbox: {
+      // workbox options for generateSW
+      globPatterns: ['**/*.{js,css,html,png,jpg,svg}'],
+      globDirectory: 'dist',
+      swDest: 'dist/sw.js',
+      skipWaiting: true,
+      clientsClaim: true,
+      runtimeCaching: [
+        {
+          urlPattern: new RegExp('^https://fonts.googleapis.com/'),
+          handler: 'StaleWhileRevalidate',
+          options: {
+            cacheName: 'google-fonts-stylesheets',
+          },
+        },
+        {
+          urlPattern: new RegExp('^https://fonts.gstatic.com/'),
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'google-fonts-webfonts',
+            cacheableResponse: {
+              statuses: [0, 200],
+            },
+            expiration: {
+              maxEntries: 100,
+              maxAgeSeconds: 60 * 60 * 24 * 365,
+            },
+          },
+        },
+        {
+          urlPattern: new RegExp('^https://cdn.jsdelivr.net/'),
+          handler: 'StaleWhileRevalidate',
+          options: {
+            cacheName: 'jsdelivr-cdn',
+          },
+        },
+        {
+          urlPattern: new RegExp('^https://unpkg.com/'),
+          handler: 'StaleWhileRevalidate',
+          options: {
+            cacheName: 'unpkg-cdn',
+          },
+        },
+        {
+          urlPattern: new RegExp('^https://cdn.jsdelivr.net/'),
+          handler: 'StaleWhileRevalidate',
+          options: {
+            cacheName: 'jsdelivr-cdn',
+          },
+        },
+        {
+          urlPattern: new RegExp('^https://cdnjs.cloudflare.com/'),
+          handler: 'StaleWhileRevalidate',
+          options: {
+            cacheName: 'cloudflare-cdn',
+          },
+        },
+
+      ],
+    },
+
   }),
   ],
 })

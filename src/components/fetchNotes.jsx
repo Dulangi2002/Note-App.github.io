@@ -389,13 +389,13 @@ function FetchNotes({ note }) {
                         }
 
                         {note.files.length > 1 && (
-                          <button onClick={() => handleLoadMoreImages(index)} className='text-white'>
+                          <button onClick={() => handleLoadMoreImages(index)} className='text-white text-sm text-black '>
                             Load more images
                           </button>
                         )}
 
                         {expandedNotesForImages.includes(index) && note.files.length > 1 && (
-                          <button onClick={() => handleShowLessImages(index)} className='text-white'>
+                          <button onClick={() => handleShowLessImages(index)} className='text-white text-sm text-black '>
                             Show less images
                           </button>
                         )}

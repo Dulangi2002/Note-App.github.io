@@ -66,30 +66,30 @@ function Signup() {
   <img src={photo} alt="" id='main-image' />
 </div>
 
-<div className='w-96 mr-0 ml-0 m-auto' id='sign-up'>
+<div className='w-80 mr-0 ml-0 m-auto ' id='sign-up'>
       <h1 className="font-bold underline  text-center text-3xl text-white -mt-80 mb-4 lg:-mt-0   ">Signup</h1>
-      <form action="" className='w-82  ml-2 mr-4 pt-4 rounded pb-2' id='signup-form'>
+      <form action="" className='w-72  pt-4 rounded pb-2' id='signup-form'>
 
-        <div className='flex flex-col m-4 '>
+        <div className='flex flex-col mt-4  mb-4  ml-4'>
           <div>
             <label htmlFor="email" className='text-sm font-bold'>Email</label>
           </div>
 
           <div>
-            <input type="text" name="email" id="" onChange={(e) => setEmail(e.target.value)} className=' w-80 rounded ' />
+            <input type="text" name="email" id="" onChange={(e) => setEmail(e.target.value)} className=' w-64 rounded ' />
 
           </div>
 
         </div>
 
-        <div  className='flex flex-col m-4 font-bold'>
+        <div  className='flex flex-col mt-4 mb-4 ml-4 font-bold'>
           <div>
             <label htmlFor="password" className='text-sm font-bold'>Password</label>
 
           </div>
 
           <div> 
-            <input type="password" name="password" id="" onChange={(e) => setPassword(e.target.value)} className=' w-80 rounded  ' />
+            <input type="password" name="password" id="" onChange={(e) => setPassword(e.target.value)} className=' w-64 rounded  ' />
 
           </div>
 
@@ -97,7 +97,7 @@ function Signup() {
         </div>
         <p>{validationerror}</p>
 
-        <div className='bg-red-300 w-80  m-4 h-10  text-center pt-2 rounded font-bold '>
+        <div className='bg-red-300 w-64 ml-4 mb-4 mt-4 h-10  text-center pt-2 rounded font-bold '>
 
         <button onClick={handleSignup}>Signup</button>
 

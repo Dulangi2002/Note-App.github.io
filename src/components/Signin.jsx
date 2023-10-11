@@ -53,25 +53,25 @@ function SignIn() {
             <div className='w-80 -mt-96 lg:mt-32 pb-32 ml-5 '>
             <h1 className=" font-bold underline m-4 text-center text-3xl text-white ">Sign In</h1>
             <form action="" className='pt-4 rounded pb-10' id='signin-form'>
-                <div className='flex flex-col m-4 '>
+                <div className='flex flex-col mt-4 ml-2  '>
                     <div>
                         <label htmlFor="email" className="text-sm font-bold ">Email</label>
                     </div>
 
                     <div>
-                        <input className="w-64 rounded pl-2  " type="text" name="email" id="" onChange={(e) => setEmail(e.target.value)} />
+                        <input className="w-72  rounded pl-2   " type="text" name="email" id="" onChange={(e) => setEmail(e.target.value)} />
                     </div>
 
                 </div>
 
-                <div className='flex flex-col mt-4 ml-4 mr-4  font-bold'>
+                <div className='flex flex-col mt-4 ml-2 mr-4  font-bold'>
 
                     <div>
                         <label htmlFor="password" className='text-sm font-bold '>Password</label>
                     </div>
 
                     <div>
-                        <input className=" w-64 rounded pl-2" type="password" name="password" id="" onChange={(e) => setPassword(e.target.value)} />
+                        <input className=" w-72 rounded pl-2" type="password" name="password" id="" onChange={(e) => setPassword(e.target.value)} />
                     </div>
 
                 </div>
@@ -80,7 +80,7 @@ function SignIn() {
 
 
                 <div class="flex flex-col items-center justify-between">
-                    <button className="bg-red-300 w-64  mt-4 ml-2 mr-4  h-10  text-center  rounded font-bold " onClick={handleSignIn}>Signin</button>
+                    <button className="bg-red-300 w-72  mt-4  mr-4  h-10  text-center  rounded font-bold " onClick={handleSignIn}>Signin</button>
                     <a class="inline-block align-baseline font-bold text-sm text-black hover:text-black mb-2 mt-2" href="#">
                         Forgot Password?
                     </a>

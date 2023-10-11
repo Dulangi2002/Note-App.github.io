@@ -50,9 +50,9 @@ function SignIn() {
             <div>
                 <img src={photo} alt="" id='main-image' />
             </div>
-            <div className='w-96 mr-0 ml-0 -mt-96 lg:mt-32'  >
+            <div className='w-96 mr-0 ml-0 -mt-96 lg:mt-32 pb-32 '>
             <h1 className=" font-bold underline m-4 text-center text-3xl text-white ">Sign In</h1>
-            <form action="" className='  ml-2 mr-4 pt-4 rounded pb-2' id='signin-form'>
+            <form action="" className='  ml-2 mr-2 pt-4 rounded pb-10' id='signin-form'>
                 <div className='flex flex-col m-4 '>
                     <div>
                         <label htmlFor="email" className="text-sm font-bold ">Email</label>

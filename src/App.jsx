@@ -53,7 +53,7 @@ function App() {
 
    useEffect(() => {
      if (user == null)
-       navigate("/")
+       navigate("/Note-App/")
    }
      ,
 

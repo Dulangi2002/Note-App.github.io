@@ -25,7 +25,7 @@ function SignIn() {
         if (
             getDocs(collection(firestore, "users"), where("email", "==", email)).then((querySnapshot) => {
                 if (querySnapshot.size > 0) {
-                    setValidationerror("User already exists");
+                    // setValidationerror("User already exists");
                     return;
                 }
             }

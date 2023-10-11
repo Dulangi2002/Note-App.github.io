@@ -184,10 +184,10 @@ function ViewProfile({ userEmail, firestore }) {
 
 
 
-            <div id='profile-container flex flex-row ' >
+            <div id='profile-container flex flex-row  ' >
 
-                <div className='flex flex-row space-between border m-2 '>
-                    <div className='text-xl font-bold font-[Nunito] justify-center m-4 ' >
+                <div className='flex flex-row space-between border m-2 h-10 mb-4'>
+                    <div className='text-sm font-bold font-[Nunito] justify-center m-2  ' >
                         <p >{currentUser?.email}</p>
 
                     </div>
@@ -195,7 +195,7 @@ function ViewProfile({ userEmail, firestore }) {
                     <div>
                         <button
                             onClick={() => setIsEditEmailFormVisible(!isEditEmailFormVisible)}
-                            className='w-20 mt-8 '
+                            className='w-20 mt-2 '
 
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
@@ -208,8 +208,8 @@ function ViewProfile({ userEmail, firestore }) {
 
                 </div>
 
-                <div className='flex flex-row space-between border m-2 '>
-                    <div className='text-xl font-bold font-[Nunito] justify-center m-4 ' >
+                <div className='flex flex-row space-between border m-2  h-10 mb-4'>
+                    <div className='text-sm font-bold font-[Nunito] justify-center m-2 ' >
                         <p >Reset My Password</p>
 
                     </div>
@@ -217,7 +217,7 @@ function ViewProfile({ userEmail, firestore }) {
                     <div>
                         <button
                            
-                            className='w-20 mt-8 '
+                            className='w-20 mt-2'
 
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
@@ -230,7 +230,7 @@ function ViewProfile({ userEmail, firestore }) {
                 </div>
 
                 <div >
-                    <div className='bg-red-600  h-16  font-[Nunito] text-xl m-2 text-center text-xl text-white p-3 rounded  '>
+                    <div className='bg-red-600  h-10  font-[Nunito]  m-2 text-center text-sm text-white p-2 rounded  '>
 
 
                         <button onClick={deleteAccount}  >
@@ -238,7 +238,7 @@ function ViewProfile({ userEmail, firestore }) {
                         </button>
                     </div>
 
-                    <div className='bg-red-600  h-16  font-[Nunito] text-xl m-2 text-center text-xl text-white p-3 '>
+                    <div className='bg-red-600  h-10  font-[Nunito]  m-2 text-center text-sm text-white p-2 '>
 
                         <button onClick={deleteNotes}>
                             Delete My Notes
@@ -246,7 +246,7 @@ function ViewProfile({ userEmail, firestore }) {
                     </div>
 
 
-                    <div className='bg-[#FDF0F0] m-2  h-16  text-center text-xl text-black font-[Nunito]  flex flex-row  rounded justify-center gap-4 p-4'>
+                    <div className='bg-[#FDF0F0] m-2  h-10  text-center text-sm text-black font-[Nunito]  flex flex-row  rounded justify-center gap-4 p-2'>
 
 
                         <div>

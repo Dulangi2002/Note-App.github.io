@@ -80,7 +80,7 @@ function SignIn() {
 
 
                 <div class="flex flex-col items-center justify-between">
-                    <button className="bg-red-300 w-80  mt-4 ml-4 mr-4  h-10  text-center pt-2 rounded font-bold " onClick={handleSignIn}>Signin</button>
+                    <button className="bg-red-300 w-80  mt-4 ml-4 mr-4  h-10  text-center  rounded font-bold " onClick={handleSignIn}>Signin</button>
                     <a class="inline-block align-baseline font-bold text-sm text-black hover:text-black mb-2 mt-2" href="#">
                         Forgot Password?
                     </a>

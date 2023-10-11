@@ -7,7 +7,7 @@ const manifestForPlugin = {
 
   name: 'Note-App',
   short_name: 'Note-App',
-  start_url: '/Note-App/',
+  start_url: '/',
   scope: './',
   display: 'standalone',
   background_color: '#fff',

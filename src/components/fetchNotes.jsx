@@ -29,13 +29,9 @@ function FetchNotes({ note }) {
   const [categoryFilter, setCategoryFilter] = useState([]);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isZoomed, setIsZoomed] = useState(false);
-
+ const  [expandedState , setExpandedState] = useState(false);
   const [expandedNotesForImages, setExpandedNotesForImages] = useState([]);
   const [index, setIndex] = useState(0);
-
-
-
-
   const navigate = useNavigate();
 
 
@@ -56,16 +52,14 @@ function FetchNotes({ note }) {
   };
 
 
-  const handleZoom = () => {
-    setIsZoomed(!isZoomed);
-  };
-
 
 
 
   const getCreateNoteForm = () => {
     navigate('/Note-App/AddNote');
   };
+
+
 
 
 
@@ -105,24 +99,6 @@ function FetchNotes({ note }) {
 
 
 
-  const handleColorFilterSelect = (color) => {
-    setSelectedColor(color);
-  };
-
-  // const filteredNotes = notes.filter((note) => {
-  //   if (selectedColor === "all") {
-  //     return true;
-  //   } else {
-  //     return note.colorLabel === selectedColor;
-  //   }
-  // });
-
-
-  // const handleSelectAllNotes = () => {
-  //   handleColorFilterSelect('all');
-  //   console.log('Selected Color:', selectedColor);
-
-  // };
 
 
   const handleshareButtonClick = async (note) => {

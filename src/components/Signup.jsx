@@ -68,7 +68,7 @@ function Signup() {
 
 <div className='w-96 mr-0 ml-0 m-auto' id='sign-up'>
       <h1 className="font-bold underline  text-center text-3xl text-white -mt-80 mb-4 lg:-mt-0   ">Signup</h1>
-      <form action="" className='max-lg:80  ml-2 mr-4 pt-4 rounded pb-2 w-82' id='signup-form'>
+      <form action="" className='w-80  ml-2 mr-4 pt-4 rounded pb-2' id='signup-form'>
 
         <div className='flex flex-col m-4 '>
           <div>

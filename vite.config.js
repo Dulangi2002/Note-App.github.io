@@ -57,7 +57,7 @@ export default defineConfig({
 
     workbox: {
       // workbox options for generateSW
-      globPatterns: ['**/*.{js,css,html,png,jpg,svg}'],
+      globPatterns: ['**/*.{js,css,html,png,jpg}'],
       globDirectory: 'dist',
       swDest: 'dist/sw.js',
       skipWaiting: true,
@@ -84,34 +84,9 @@ export default defineConfig({
             },
           },
         },
-        {
-          urlPattern: new RegExp('^https://cdn.jsdelivr.net/'),
-          handler: 'StaleWhileRevalidate',
-          options: {
-            cacheName: 'jsdelivr-cdn',
-          },
-        },
-        {
-          urlPattern: new RegExp('^https://unpkg.com/'),
-          handler: 'StaleWhileRevalidate',
-          options: {
-            cacheName: 'unpkg-cdn',
-          },
-        },
-        {
-          urlPattern: new RegExp('^https://cdn.jsdelivr.net/'),
-          handler: 'StaleWhileRevalidate',
-          options: {
-            cacheName: 'jsdelivr-cdn',
-          },
-        },
-        {
-          urlPattern: new RegExp('^https://cdnjs.cloudflare.com/'),
-          handler: 'StaleWhileRevalidate',
-          options: {
-            cacheName: 'cloudflare-cdn',
-          },
-        },
+       
+      
+      
 
       ],
     },

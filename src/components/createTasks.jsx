@@ -42,7 +42,7 @@ function CreateTasks() {
 
         const today = new Date();
         const todayDate = today.getDate().toString();
-        return tasks.filter((task) => { 
+        return tasks.filter((task) => {
             const taskDate = task.date.split("-")[2];
             return taskDate === todayDate;
         });
@@ -259,16 +259,13 @@ function CreateTasks() {
 
         <div id="tasks">
 
-
-
-
-
-            <button onClick={handleClickAddTask} className="flex flex-row  bg-green-300  w-56 h-12 rounded justify-center m-4  gap-2" id="open-create-task-form">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+            <div className="flex flex-row items-baseline  justify-start  ">
+            <button onClick={handleClickAddTask} className="flex flex-row  border-2  w-56 h-12 rounded justify-center m-4 p-2  gap-2" id="open-create-task-form">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                     class="bi bi-plus-circle-fill" viewBox="0 0 16 16">
                     <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
                 </svg>
-               Add task
+                Add task
             </button>
 
 
@@ -276,15 +273,15 @@ function CreateTasks() {
 
             {
                 showForm && (
-                    <form className="form-control  flex flex-col gap-4 z-[1] shadow p-4  ">
+                    <form className="flex flex-col gap-4 z-[1] shadow p-4 w-2/3 m-auto left-0 right-0 absolute bg-white ">
                         <div>
                             <label htmlFor="task_name">Task name</label>
-                            <input type="text" onChange={handleTaskNameChange} value={task_name} placeholder="Enter task..." className="border-2 border-black ml-2 p-2 rounded w-60  "/>
+                            <input type="text" onChange={handleTaskNameChange} value={task_name} placeholder="Enter task..." className="border-2 border-black p-2 rounded w-full  " />
                         </div>
 
                         <div>
                             <label htmlFor="task_due_date"> Due date</label>
-                            <input type="date" onChange={handleDateChange} value={date} className="border-2  border-black ml-4 p-2 rounded  w-60"/>
+                            <input type="date" onChange={handleDateChange} value={date} className="border-2  border-black p-2 rounded  w-full" />
                         </div>
                         <div>
                             <label htmlFor="priority">Priority:</label>
@@ -297,14 +294,18 @@ function CreateTasks() {
                             </select>
                         </div>
 
-                        <button onClick={handleAddTask} id="" className="bg-gray-200 rounded h-8 font-[Nunito ]  ">
-                            <span>Add</span>
-                        </button>
-                        <button onClick={
-                            () => setshowForm(false)
-                        } className="bg-gray-200 h-8 rounded font-[Nunito]">
-                           Cancel
-                        </button>
+                        <div className="flex flex-row justify-start gap-6  ">
+                            <button onClick={handleAddTask} id="" className="bg-green-400 rounded-full  h-10 p-2 text-center  w-1/2 font-[Nunito ] text-lg  text-white font-bold ">
+                                <span>Add</span>
+                            </button>
+                            <button onClick={
+                                () => setshowForm(false)
+                            } className="bg-red-400 rounded-full  h-10 p-2 text-center  w-1/2  font-[Nunito] text-lg text-white font-bold">
+                                Cancel
+                            </button>
+                        </div>
+
+
 
                     </form>
 
@@ -316,7 +317,11 @@ function CreateTasks() {
 
 
                 <details id="priority-filter" value={priorityFilter} onChange={handlePriorityFilterChange} className="dropdown ">
-                    <summary className="btn font-bold font-[Nunito] text-sm -mb-4">Priority</summary>
+                    <summary className="btn font-bold font-[Nunito] text-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-filter" viewBox="0 0 16 16">
+                            <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z" />
+                        </svg>
+                    </summary>
 
                     <select name="" id="" className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
                         <option value="all">All</option>
@@ -331,19 +336,25 @@ function CreateTasks() {
                 </details>
 
             </div>
-            <div id="tasks-list ">
+            </div>
+
+
+
+
+           
+            <div id="tasks-list" className="flex lg:flex-row flex-col flex-wrap m-4 gap-4">
                 {filteredTasks.map((task) => (
 
 
 
 
-                    <div key={task.id} className="flex flex-col shadow rounded m-4  " id="single-task">
+                    <div key={task.id} className="flex flex-col border-2  rounded lg:m-4 p-2  lg:w-1/4 w-full">
                         <div className="flex flex-row space-between">
                             <div className="w-20  h-2 rounded  ml-2 mt-2 " style={{ backgroundColor: task.priorityColor }}></div>
 
                         </div >
 
-                        <div className="flex flex-row ">
+                        <div className="flex flex-row  justify-between">
                             <div className="-mt-4">
 
                                 <div className="flex flex-row ml-4 mt-4 ">
@@ -363,22 +374,22 @@ function CreateTasks() {
                                                 textDecoration: task.completed ? "line-through" : 'none',
                                             }}
 
-                                            className="font-[Nunito] font-bold text-xl ml-2 mt-2 ">{task.task_name}</h2>
+                                            className="font-[Nunito] font-bold text-2xl ml-2  ">{task.task_name}</h2>
                                     </div>
                                 </div>
 
                                 <div>
-                                    <p className="p-2 font-[Nunito] ml-2 text-sm  "> Due date : {task.date}</p>
+                                    <p className="p-2 font-[Nunito] ml-2 text-xl  "> Due date : {task.date}</p>
 
                                 </div>
 
                             </div>
 
 
-                            <div className="flex flex-col  ">
+                            <div className="flex flex-row gap-4   ">
                                 <div>
                                     <button onClick={() => toggleEdit(task.id)} id="edit-task-button">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
                                             <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z" />
                                         </svg>
                                     </button>
@@ -398,7 +409,7 @@ function CreateTasks() {
                                 <div>
                                     <button onClick={
                                         () => deleteTask(task.id)
-                                    } id="delete-task-button"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                    } id="delete-task-button"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                             <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z" />
                                             <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
                                         </svg>

@@ -60,12 +60,14 @@ function EditTask(props) {
 
 
     return (
-        <div className="  w-60   justify-center z-[1] " id="">
+        <div className="w-full max-w-md  absolute bg-white" id="">
 
 
-            <form onSubmit={handleEditTask} className="form-control mt-2 p-4 -ml-16 shadow   border-2  flex flex-col " >
+            <form onSubmit={handleEditTask} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" >
 
-                <label className="font-[Nunito] text-md">
+                <div className="mb-6">
+
+                <label className="font-[Nunito] block text-gray-700 text-md font-bold mb-2">
                     Task Name:
                     <input
 
@@ -73,13 +75,14 @@ function EditTask(props) {
                         name="task_name"
                         value={task_name}
                         onChange={(e) => setTaskName(e.target.value)}
-                        className="border rounded border-black h-8 w-40   mb-2 p-3 "
+                        className="border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                     />
                 </label>
 
+                </div>
 
-
-                <label className="font-[Nunito] text-md">
+                <div className="mb-6">
+                <label className="font-[Nunito] block text-gray-700 text-md font-bold mb-2">
                     Date:
                     <input
 
@@ -87,11 +90,14 @@ function EditTask(props) {
                         name="date"
                         value={date}
                         onChange={(e) => setDate(e.target.value)}
-                        className="border rounded border-black h-8 w-40   mb-2 p-3 "
+                        className=" border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                     />
                 </label>
 
-                <label className="font-[Nunito] text-md0 ">
+                </div>
+
+                <div className="mb-6">
+                <label className="font-[Nunito] text-md ont-[Nunito] block text-gray-700 text-md font-bold mb-2 ">
                     Priority:
                     <select id="priority" value={priority}   onChange={(e) => setPriority(e.target.value)}>
                         <option value="low">Low</option>
@@ -101,8 +107,10 @@ function EditTask(props) {
 
                 </label>
 
-                <div>
-                    <button type="submit" className="font-[Nunito] bg-green-300 w-28 mt-2 rounded text-sm p-2 " >Update</button>
+                </div>
+
+                <div className="flex items-center justify-between">
+                    <button type="submit" className="font-[Nunito] bg-green-300 py-2 px-4 2 rounded-full text-md " >Update</button>
 
                 </div>
 

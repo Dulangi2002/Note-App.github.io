@@ -44,6 +44,13 @@ const NavigationBar = () => {
                                     <Link to="/Note-App/" className=''>Notes </Link>
                                 </div>
 
+                                <div className="py-2 lg:py-0  lg:p-4   md:border-b sm:border-b border-black">
+                                    <Link to="/Note-App/createTasks" className=''>Tasks </Link>
+
+                                </div>
+
+
+
 
 
                                 <div className="py-2 lg:py-0 lg:p-4   md:border-b sm:border-b border-black ">

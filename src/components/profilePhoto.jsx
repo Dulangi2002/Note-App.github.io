@@ -150,7 +150,7 @@ function ProfilePhoto() {
     return (
         <div>
             {capturedImage ? (
-                <div>
+                <div className="ml-10">
                     <img src={capturedImage} alt="Captured" style={{ width: "100%", height: "auto" }} />
                     {/* <button onClick={() => setCapturedImage(null)}>Discard</button> */}
 
@@ -165,7 +165,7 @@ function ProfilePhoto() {
                 <div>
                     <input type="file" accept="image/*" onChange={handleImageUpload} />
                     <video ref={videoRef} style={{ width: "100%", height: "auto" }} autoPlay />
-                    <button onClick={takePhoto} id="take-photo-button">Take Photo</button>
+                    <button onClick={takePhoto} id="take-photo-button" className="ml-10">Take Photo</button>
                 </div>
             )}
         </div>

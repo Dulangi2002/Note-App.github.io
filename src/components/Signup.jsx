@@ -4,7 +4,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import { getFirestore, collection, getDocs, where } from "firebase/firestore";
-import photo from '../assets/signup.jpg';
+import pic from '../assets/bg2.png'
 
 
 function Signup() {
@@ -13,6 +13,7 @@ function Signup() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [validationerror, setValidationerror] = useState("");
+  const [ isError , setIsError ] = useState(false);
   const db = getFirestore();
 
 
@@ -25,17 +26,22 @@ function Signup() {
       !/[0-9]/.test(password) ||
       !/[!@#$%^&*(),.?":{}|<>]/.test(password)
     ) {
+      setIsError(true);
+
       setValidationerror("Password must be at least 8 characters long and must contain a lowercase letter, an uppercase letter, a number and a special character");
       return validationerror;
     }
 
     if (!password || !email) {
+      setIsError(true);
+
       setValidationerror("Please enter your email and password");
       return;
     }
     if (
       getDocs(collection(db, "users"), where("email", "==", email)).then((querySnapshot) => {
         if (querySnapshot.size > 0) {
+          setIsError(true);
           setValidationerror("User already exists");
           return;
         }
@@ -60,56 +66,56 @@ function Signup() {
   }
   return (
 
-<div className=' lg:pb-20 pb-8 lg:grid grid-cols-2 ' id='main-background'>
+    <div className='flex lg:flex-row  flex-col '  >
+      <div className='lg:w-2/3 p-4 '>
+        <img src={pic} alt="" className='hidden sm:block   ' />
+      </div>
+      <div className="w-full">
+        <form action="" className="w-full m-auto left-0 right-0 lg:p-44 p-12 rounded-lg ">
+        <h1 className='font-bold text-6xl p-2 text-center text-black underline animate-bounce  pb-4 '>Register </h1>
 
-  <div>
-  <img src={photo} alt="" id='main-image' />
-</div>
+          <div className=' mb-4'>
+            <div>
+              <label htmlFor="email" className="block text-gray-700 text-xl  font-bold mb-2">Email</label>
+            </div>
 
-<div className='w-96 mr-0 ml-0 m-auto ' id='sign-up'>
-      <h1 className="font-bold underline  text-center text-3xl text-white -mt-80 mb-4 lg:-mt-0   ">Signup</h1>
-      <form action="" className='w-80  pt-4 rounded pb-2 ml-4 ' id='signup-form'>
+            <div>
+              <input type="text" name="email" id="" onChange={(e) => setEmail(e.target.value)} className="border rounded-full w-full h-16 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-xl bg-[#E9D5DA] placeholder:text-black" />
 
-        <div className='flex flex-col mt-4  mb-4  ml-4'>
-          <div>
-            <label htmlFor="email" className='text-sm font-bold'>Email</label>
-          </div>
-
-          <div>
-            <input type="text" name="email" id="" onChange={(e) => setEmail(e.target.value)} className=' w-72 rounded ' />
-
-          </div>
-
-        </div>
-
-        <div  className='flex flex-col mt-4 mb-4 ml-4 font-bold'>
-          <div>
-            <label htmlFor="password" className='text-sm font-bold'>Password</label>
+            </div>
 
           </div>
 
-          <div> 
-            <input type="password" name="password" id="" onChange={(e) => setPassword(e.target.value)} className=' w-72 rounded  ' />
+          <div className='mb-6 '>
+            <div>
+              <label htmlFor="password" className='block text-gray-700 text-xl  font-bold mb-2'>Password</label>
+
+            </div>
+
+            <div>
+              <input type="password" name="password" id="" onChange={(e) => setPassword(e.target.value)} className="border rounded-full w-full h-16 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-xl bg-[#E9D5DA] placeholder:text-black"/>
+
+            </div>
+
+
+          </div>
+          {
+            isError && <p className='bg-yellow-200 border-2 border-black text-sm rounded-lg p-2'>{validationerror}</p>
+          }
+
+          <div className='flex items-center'>
+
+            <button className=" m-auto left-0  right-0 rounded-full bg-black hover:bg-white text-white hover:text-black hover:shadow-md font-bold py-3 px-10  focus:outline-none focus:shadow-outline text-xl" onClick={handleSignup}>Signup</button>
 
           </div>
 
+        </form>
+      </div>
 
-        </div>
-        <p>{validationerror}</p>
 
-        <div className='bg-red-300 w-72 ml-4 mb-4 mt-4 h-10  text-center pt-2 rounded font-bold '>
 
-        <button onClick={handleSignup}>Signup</button>
-
-        </div>
-
-      </form>
     </div>
 
-
-
-</div>
-   
 
   );
 }

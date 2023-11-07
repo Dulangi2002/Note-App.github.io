@@ -4,7 +4,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import { getFirestore, collection, getDocs, where } from "firebase/firestore";
-import photo from '../assets/signup.jpg';
+import pic from '../assets/bg2.png'
 
 
 function SignIn() {
@@ -12,6 +12,8 @@ function SignIn() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [validationerror, setValidationerror] = useState("");
+    const [isError, setIsError] = useState(false);
+
     const navigate = useNavigate();
     const db = getFirestore();
 
@@ -19,75 +21,111 @@ function SignIn() {
     const handleSignIn = async (e) => {
         e.preventDefault();
         if (!password || !email) {
+            setIsError(true);
             setValidationerror("Please enter your email and password");
             return;
-        }
+        } 
+        //if the password doesnt match the email then it will throw an error
         if (
-            getDocs(collection(firestore, "users"), where("email", "==", email)).then((querySnapshot) => {
-                if (querySnapshot.size > 0) {
-                    // setValidationerror("User already exists");
+            getDocs(collection(db, "users"), where("email", "==", email)).then((querySnapshot) => {
+                if (querySnapshot.size === 0) {
+                    setIsError(true);
+                    setValidationerror("User does not exist");
                     return;
                 }
             }
             )
+
         )
-
-            await signInWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-                    const user = userCredential.user;
-                    console.log(user);
-                    navigate("/Note-App/");
-
+        //make sure the password is correct
+        if (
+            getDocs(collection(db, "users"), where("email", "==", email)).then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    if (doc.data().password !== password) {
+                        setIsError(true);
+                        setValidationerror("Incorrect password");
+                        return;
+                    }
                 })
-                .catch((error) => {
-                    console.log(error);
+            }
+            )
 
-                });
+        )
+            
+
+        try {
+            await signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                // console.log(user);
+                navigate("/Note-App/");
+
+            })
+            .catch((error) => {
+                console.log(error);
+
+            });
+            
+        } catch (error) {
+            console.log(error);
+        }
+
+            // await signInWithEmailAndPassword(auth, email, password)
+            //     .then((userCredential) => {
+            //         const user = userCredential.user;
+            //         console.log(user);
+            //         navigate("/Note-App/");
+
+            //     })
+            //     .catch((error) => {
+            //         console.log(error);
+
+            //     });
 
     }
     return (
-        <div className=' pb-8 lg:grid grid-cols-2 relative' id='main-background' >
-            <div>
-                <img src={photo} alt="" id='main-image' />
+        <div className='flex lg:flex-row  flex-col '  >
+            <div className='lg:w-2/3 p-4 '>
+                <img src={pic} alt="" className='hidden sm:block   ' />
             </div>
-            <div className='w-80 -mt-96 lg:mt-32 pb-32 ml-5 '>
-            <h1 className=" font-bold underline m-4 text-center text-3xl text-white ">Sign In</h1>
-            <form action="" className='pt-4 rounded pb-10' id='signin-form'>
-                <div className='flex flex-col mt-4 ml-2  '>
-                    <div>
-                        <label htmlFor="email" className="text-sm font-bold ">Email</label>
+            <div className="w-full">
+                <form className="w-full m-auto left-0 right-0 lg:p-44 p-12 rounded-lg ">
+
+                    <h1 className='font-bold text-6xl p-2 text-center text-black underline animate-bounce  pb-4 '>Sign In </h1>
+                    <div className="mb-4">
+
+                        <label htmlFor="email" className="block text-gray-700 text-xl  font-bold mb-2"></label>
+
+                        <input className="border rounded-full w-full h-16 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-xl bg-[#E9D5DA] placeholder:text-black" placeholder='Enter your email ' type="text" name="email" id="" onChange={(e) => setEmail(e.target.value)} />
+
+
                     </div>
 
-                    <div>
-                        <input className="w-72  rounded pl-2   " type="text" name="email" id="" onChange={(e) => setEmail(e.target.value)} />
+                    <div className='mb-6'>
+
+
+                        <label htmlFor="password" className='block text-gray-700 text-xl  font-bold mb-2'></label>
+
+
+
+                        <input className=" border rounded-full w-full h-16 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-xl bg-[#E9D5DA] placeholder:text-black" type="password" name="password" id="" placeholder='******' onChange={(e) => setPassword(e.target.value)} />
+
+
                     </div>
 
-                </div>
+                    {
+                        isError && <p className='bg-yellow-200 border-2 border-black text-sm rounded-lg p-2'>{validationerror}</p>
+                    }
 
-                <div className='flex flex-col mt-4 ml-2 mr-4  font-bold'>
 
-                    <div>
-                        <label htmlFor="password" className='text-sm font-bold '>Password</label>
+                    <div className="flex items-center">
+                        <button className=" m-auto left-0  right-0 rounded-full bg-black hover:bg-white text-white hover:text-black hover:shadow-md font-bold py-3 px-10  focus:outline-none focus:shadow-outline text-xl" onClick={
+                            handleSignIn
+                        }>Signin</button>
                     </div>
-
-                    <div>
-                        <input className=" w-72 rounded pl-2" type="password" name="password" id="" onChange={(e) => setPassword(e.target.value)} />
-                    </div>
-
-                </div>
-
-                <p>{validationerror}</p>
-
-
-                <div class="flex flex-col items-center justify-between">
-                    <button className="bg-red-300 w-72  mt-4  mr-4  h-10  text-center  rounded font-bold " onClick={handleSignIn}>Signin</button>
-                    <a class="inline-block align-baseline font-bold text-sm text-black hover:text-black mb-2 mt-2" href="#">
-                        Forgot Password?
-                    </a>
-                </div>
-            </form>
+                </form>
             </div>
-           
+
 
         </div>
     );

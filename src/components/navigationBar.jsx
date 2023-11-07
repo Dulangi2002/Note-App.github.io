@@ -6,6 +6,7 @@ import '../index.css';
 import { auth } from '../firebase';
 import { getAuth } from "firebase/auth";
 import Wakelock from './wakelock';
+import { useState } from 'react';
 // import { askforPermissioToReceiveNotifications } from '../firebase';
 
 
@@ -13,6 +14,12 @@ import Wakelock from './wakelock';
 const NavigationBar = () => {
 
     const { user, logout } = useAuth();
+    const [isMenuOpen, setMenuOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setMenuOpen(!isMenuOpen);
+    };
+
     return (
 
         <nav className="lg:px-16 px-8  shadow-md flex flex-wrap items-center lg:py-8 py-8 mt-8  " id='navigation-bar'>
@@ -29,8 +36,8 @@ const NavigationBar = () => {
                     <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
                 </svg>
             </label>
-            <input className="hidden" type="checkbox" id="menu-toggle" />
-            <div className="hidden lg:flex lg:items-center lg:w-auto w-full" id="menu">
+            <input className="hidden" type="checkbox" id="menu-toggle" checked={isMenuOpen} onChange={toggleMenu} />
+            <div className={`lg:flex lg:items-center lg:w-auto w-full ${isMenuOpen ? 'block' : 'hidden'}`} id="menu">
                 <nav>
 
 

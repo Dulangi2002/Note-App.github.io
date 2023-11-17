@@ -14,6 +14,7 @@ import { useAuth } from './AuthContext.jsx';
 import ProfilePhoto from './components/profilePhoto.jsx';
 import { useNavigate } from 'react-router-dom';
 import Fallback from './components/fallback.jsx';
+import ViewNote from './components/viewNote.jsx';
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/dist/sw.js') // Adjust the path accordingly
@@ -73,6 +74,8 @@ function App() {
             <Route path="/Note-App/CreateTasks" element={<CreateTasks />} />
             <Route path="/Note-App/profilePhoto" element={<ProfilePhoto />} />
             <Route path="/Note-App/fallback" element={<Fallback />} />
+            <Route path="/Note-App/ViewNote" element={<ViewNote />} />
+
           </Routes>
 
 

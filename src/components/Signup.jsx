@@ -1,24 +1,23 @@
 import React, { useState } from 'react';
-import { auth } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../AuthContext';
 import { getFirestore, collection, getDocs, where } from "firebase/firestore";
 import pic from '../assets/bg2.png'
-
+import { getAuth } from "firebase/auth";
 
 function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { user } = useAuth();
   const [validationerror, setValidationerror] = useState("");
   const [ isError , setIsError ] = useState(false);
   const db = getFirestore();
+  const auth = getAuth();
 
 
   const handleSignup = async (e) => {
     e.preventDefault();
+  
     if (
       password.length < 8 ||
       !/[a-z]/.test(password) ||
@@ -27,43 +26,23 @@ function Signup() {
       !/[!@#$%^&*(),.?":{}|<>]/.test(password)
     ) {
       setIsError(true);
-
-      setValidationerror("Password must be at least 8 characters long and must contain a lowercase letter, an uppercase letter, a number and a special character");
-      return validationerror;
+      setValidationerror(
+        "Password must be at least 8 characters long and must contain a lowercase letter, an uppercase letter, a number and a special character"
+      );
+      return;
     }
-
+  
     if (!password || !email) {
       setIsError(true);
-
       setValidationerror("Please enter your email and password");
       return;
     }
-    if (
-      getDocs(collection(db, "users"), where("email", "==", email)).then((querySnapshot) => {
-        if (querySnapshot.size > 0) {
-          setIsError(true);
-          setValidationerror("User already exists");
-          return;
-        }
-      }
-      )
+  
+    await createUserWithEmailAndPassword(auth, email, password);
+    console.log("User created");
 
-    )
-      await createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-
-          const user = userCredential.user;
-          console.log(user);
-          navigate("/Note-App/")
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log(error, errorMessage, errorCode);
-          // ..
-        });
-
-  }
+  };
+  
   return (
 
     <div className='flex lg:flex-row  flex-col '  >

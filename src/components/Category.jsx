@@ -82,7 +82,7 @@ function CreateCategory() {
                             id: doc.id,
                             ...doc.data()
                         }));
-                        console.log(categoriesData);
+                        // console.log(categoriesData);
                         setCategories((prevCategories) => [...prevCategories, ...categoriesData]);
                         setCategories(categoriesData);
 

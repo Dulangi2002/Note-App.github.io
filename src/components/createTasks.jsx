@@ -3,7 +3,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, collection, addDoc, getDocs, doc, setDoc, deleteDoc } from "firebase/firestore";
 import { firestore } from "../firebase";
 import EditTask from "./editTask";
-
+import { compareAsc, format } from "date-fns";
 
 function CreateTasks() {
     const [date, setDate] = useState("");
@@ -15,12 +15,66 @@ function CreateTasks() {
     const [priorityColor, setPriorityColor] = useState('');
     const [priorityFilter, setPriorityFilter] = useState('all');
     const [showForm, setshowForm] = useState(false);
-
-
-
-
     const auth = getAuth();
     const db = getFirestore();
+
+
+    function showNotification(title , options) {
+        if( !("Notification" in window) ) {
+            alert("This browser does not support desktop notification");
+        }
+        else if (Notification.permission === "granted") {
+            const notification = new Notification(title , options);
+        }
+        else if (Notification.permission !== "denied") {
+            Notification.requestPermission().then(function (permission) {
+                if (permission === "granted") {
+                    const notification = new Notification(title , options);
+                }
+            });
+        }
+    }
+
+    function checkDueTasks() {
+        const today = new Date();
+        
+        tasks.forEach((task) => {
+            const taskDate = task.date.split("-");
+            const taskDateObj = new Date(taskDate[0], taskDate[1] - 1, taskDate[2]);
+            const result = compareAsc(today, taskDateObj);
+            if (result === 0) {
+                showNotification("Task due today" , {
+                    body : task.task_name
+                });
+            }
+        }
+        );
+
+
+    }
+
+    function DailyTimer() {
+        const now = new Date();
+        const tomorrow = new Date(now);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(10, 32, 0, 0);
+    
+        const timeToTomorrow = tomorrow - now;
+    
+        setTimeout(function () {
+            checkDueTasks();
+            DailyTimer();
+        }, timeToTomorrow);
+    }
+    
+    // Call the DailyTimer function to start the recurring timer
+    DailyTimer();
+    
+
+
+    
+
+
 
     function handleTaskNameChange(event) {
         const newTaskName = event.target.value;
@@ -48,7 +102,6 @@ function CreateTasks() {
         });
     };
 
-    const DueToday = filterTasksDueToday(tasks);
 
 
 
@@ -100,7 +153,11 @@ function CreateTasks() {
         } catch (e) {
             console.error("Error updating document: ", e);
         }
+
+        
     };
+
+
 
     const handleAddTask = async (e) => {
 
@@ -130,7 +187,7 @@ function CreateTasks() {
                 };
 
 
-
+                setshowForm(false);
                 setTasks((prevTasks) => [...prevTasks, newTask]);
 
 

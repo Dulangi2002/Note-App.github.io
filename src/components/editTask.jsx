@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { getAuth } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { set } from "date-fns";
 
 
 
@@ -42,10 +43,9 @@ function EditTask(props) {
                 });
                 
 
-                
-
                 console.log("Document edited ");
-               
+                setEditingStates({ ...editingStates, [task_ID]: false });   
+                setTasks(tasks.map((task) => task.task_ID === task_ID ? { ...task, task_name: task_name, date: date, completed: completed, priority: priorityValue, priorityColor: priorityColor } : task));
 
               
 
@@ -60,7 +60,7 @@ function EditTask(props) {
 
 
     return (
-        <div className="w-full max-w-md  absolute bg-white" id="">
+        <div className="w-full max-w-md m-auto left-0  absolute bg-white" id="">
 
 
             <form onSubmit={handleEditTask} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" >
